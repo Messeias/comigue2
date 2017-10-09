@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/list_item"
+        android:elevation="10dp"
+        android:layout_margin="15px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/list_nome_materia"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:layout_weight="0.7"
+                android:text="Matemática"
+                android:gravity="start"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="normal|bold" />
+
+            <TextView
+                android:id="@+id/list_horario_materia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10px"
+                android:layout_weight="0.3"
+                android:text="8:45"
+                android:gravity="start"
+                android:textAlignment="textStart"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="normal|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/list_descricao_materia"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="10px"
+                android:text="Matemática com a turma 4I, ministrada pelo Roberto"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

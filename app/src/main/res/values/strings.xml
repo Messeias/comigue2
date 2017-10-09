@@ -4,5 +4,13 @@
     <string name="senha">Senha</string>
     <string name="entrar">Fazer Login</string>
     <string name="erro_autenticacao"> Usuário ou Senha inválidos</string>
-    <string name="teste"> Teste para commitar</string>
+    <string name="cadastrar"> Cadastrar-se</string>
+    <string name="nome">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="celular">Celular</string>
+    <string name="finalizar_cadastro">Finalizar Cadastro</string>
+    <string name="btn_menu_lateral">O</string>
+    <string name="pesquisar">Buscar matérias</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Closed</string>
 </resources>

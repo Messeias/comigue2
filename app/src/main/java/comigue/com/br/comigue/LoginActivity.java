@@ -28,11 +28,15 @@ public class LoginActivity extends Activity {
         String usuarioInformado = usuario.getText().toString();
         String senhaInformada = senha.getText().toString();
         if("leitor".equals(usuarioInformado) && "123".equals(senhaInformada)){
-            //startActivity(new Intent(this, DashboardActivity.class));
+            startActivity(new Intent(this, InicioActivity.class));
         }else {
             String msgErro = getString(R.string.erro_autenticacao);
             Toast toast = Toast.makeText(this, msgErro, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public void cadastrarOnClick(View v){
+        startActivity(new Intent(this, CadastrarActivity.class));
     }
 }

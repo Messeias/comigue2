@@ -3,40 +3,72 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical" >
+    android:gravity="center_vertical"
+    android:background="@color/black"
+    >
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
-        android:src="@drawable/logo"/>
+        android:src="@drawable/comigue"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/usuario"/>
+        android:text="@string/usuario"
+        android:textColor="@color/white"
+        />
+
     <EditText
         android:id="@+id/usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text" >
+        android:inputType="text"
+        android:textColor="@color/white">
         <requestFocus/>
     </EditText>
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/senha"/>
+        android:text="@string/senha"
+        android:layout_marginTop="10px"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:textColor="@color/white"
+        />
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:onClick="entrarOnClick"
-        android:text="@string/entrar"/>
+        android:text="@string/entrar"
+        android:textColor="@color/white"
+        android:background="@color/transparent"
+        android:layout_marginTop="10px"
+        style="@style/AudioFileInfoOverlayText"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:onClick="cadastrarOnClick"
+        android:text="@string/cadastrar"
+        android:textColor="@color/white"
+        android:layout_marginTop="10px"
+        android:background="@color/transparent"
+        style="@style/AudioFileInfoOverlayText"/>
 
 </LinearLayout>

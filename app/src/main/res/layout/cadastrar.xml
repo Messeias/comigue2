@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/black"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/comigue"/>
+
+    <!--Texto e campo para nome-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nome"
+        android:textColor="@color/white"
+        />
+    <EditText
+        android:id="@+id/nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textColor="@color/white">
+        <requestFocus/>
+    </EditText>
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+
+    <!--Texto e campo para e-mail-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:layout_marginTop="18px"
+        android:textColor="@color/white"/>
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/white"
+        />
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+
+    <!--Texto e campo para celular-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/celular"
+        android:layout_marginTop="18px"
+        android:textColor="@color/white"/>
+    <EditText
+        android:id="@+id/celular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:textColor="@color/white"
+        />
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+
+
+
+    <!--Texto e campo para senha-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/senha"
+        android:layout_marginTop="18px"
+        android:textColor="@color/white"/>
+    <EditText
+        android:id="@+id/senha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:textColor="@color/white"
+        />
+    <View
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="2px"/>
+
+
+    <!--Botão para finalizar cadastro-->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:onClick="finalizarCadastroOnClick"
+        android:text="@string/finalizar_cadastro"
+        android:textColor="@color/white"
+        android:layout_marginTop="35px"
+        android:background="@color/transparent"
+        style="@style/AudioFileInfoOverlayText"
+        android:textSize="20px"/>
+</LinearLayout>
