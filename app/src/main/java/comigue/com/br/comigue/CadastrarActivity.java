@@ -48,13 +48,14 @@ public class CadastrarActivity extends Activity {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if(response.isSuccessful()){
-                    usuario = response.body();
-                    Intent it = new Intent(CadastrarActivity.this, InicioActivity.class);
-                    Bundle data = new Bundle();
-                    data.putSerializable("usuario", usuario);
-                    it.putExtras(data);
+//                    usuario = response.body();
+                    Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
+//                    Bundle data = new Bundle();
+//                    data.putSerializable("usuario", usuario);
+//                    it.putExtras(data);
+//                    startActivity(it);
+//                    finish();
                     startActivity(it);
-                    finish();
                     Toast.makeText(CadastrarActivity.this, "Deveria ter cadastrado", Toast.LENGTH_SHORT).show();
                 }
             }

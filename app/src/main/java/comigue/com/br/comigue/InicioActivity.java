@@ -13,7 +13,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import comigue.com.br.comigue.consumer.MateriaConsumer;
+import comigue.com.br.comigue.pojo.Materia;
 
 /**
  * Created by Usuario on 06/10/2017.
@@ -22,31 +26,34 @@ import java.util.List;
 public class InicioActivity extends Activity {
 
 
-//    usar listview
     private EditText pesquisar;
     private ListView listaMaterias;
     private DrawerLayout menuLateral;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView drawerList;
-    private String[] materia1 = {"Matemática", "9:30", "Matemática turma 4I na pétala, sala 9"};
-    private String[] materia2 = {"Geografia", "10:45", "Geografia com professor Fernando"};
-    private String[] materia3 = {"História", "11:30", "História bem louco com o Roger e mais uns loucos que nem são da turma mas estão fazendo por que repetiram de ano nesta matéria idiota"};
-    private String[] menuItens = {"Minhas anotações", "Meus horários", "Configurações", "Editar perfil"};
+    private List<Materia> materias;
+    private MateriaConsumer materiaConsumer = new MateriaConsumer();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicio);
 
-        pesquisar = (EditText) findViewById(R.id.pesquisar);
-        listaMaterias = (ListView) findViewById(R.id.lista_materias);
-        final ListarMateriasAdapter materiasAdapter = new ListarMateriasAdapter(this, listarMaterias());
+        this.materias = (List<Materia> )materiaConsumer.buscarTodos();
+        final ListarMateriasAdapter materiasAdapter = new ListarMateriasAdapter(this, materias);
         listaMaterias.setAdapter(materiasAdapter);
 
 
+
+    }
+
+    public void inicializaComponentes(){
+        pesquisar = (EditText) findViewById(R.id.pesquisar);
+        listaMaterias = (ListView) findViewById(R.id.lista_materias);
+
         menuLateral = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, menuItens));
+        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Arrays.asList("Editar Perfil", "Anotações Pessoais", "Meu Calendário", "Criar Novo Grupo")));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         mDrawerToggle = new ActionBarDrawerToggle(this, menuLateral,
@@ -89,14 +96,6 @@ public class InicioActivity extends Activity {
         String msg = "pesquisou pela matéria: " +this.pesquisar.getText().toString();
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
-    }
-
-    public List<String[]> listarMaterias(){
-        List<String[]> materias = new ArrayList<String[]>();
-        materias.add(this.materia1);
-        materias.add(this.materia2);
-        materias.add(this.materia3);
-        return materias;
     }
 
 }

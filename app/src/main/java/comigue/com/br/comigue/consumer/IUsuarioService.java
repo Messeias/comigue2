@@ -5,7 +5,6 @@ package comigue.com.br.comigue.consumer;
  */
 
 import comigue.com.br.comigue.pojo.Usuario;
-import retrofit2.http.POST;
 
         import java.util.List;
         import retrofit2.Call;
@@ -21,7 +20,7 @@ import retrofit2.http.POST;
  */
 
 public interface IUsuarioService {
-    static final String URL_BASE = "http://192.168.0.3:8081/";
+    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("usuario/{login}/{senha}")
     Call<Usuario> postAutentica(@Path("login") String login, @Path("senha") String senha);
@@ -29,11 +28,17 @@ public interface IUsuarioService {
     @POST("usuario/")
     Call<Usuario> postCadastrar(@Body Usuario usuario);
 
+    @POST("usuario/logar")
+    Call<Usuario> postLogar(@Body Usuario usuario);
+
     @PUT("usuario/")
     Call<Usuario> putAtualizar(@Body Usuario usuario);
 
     @GET("usuario/")
     Call<List<Usuario>> buscarTodos();
+
+    @GET("usuario/{id}")
+    Call<Usuario> buscarPorId(@Path("id")long id);
 
     @DELETE("usuario/{id}")
     Call<Void> deletePorId(@Path("id")long id);

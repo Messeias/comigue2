@@ -51,6 +51,10 @@ public class UsuarioConsumer {
         return this.usuarioService.buscarTodos();
     }
 
+    public Call<Usuario> buscarPorId(long id){ return this.usuarioService.buscarPorId(id);}
+
+    public Call<Usuario> postLogar(Usuario usuario){ return this.usuarioService.postLogar(usuario);}
+
     public Call<Void> deletePorId(long id) {
         return this.usuarioService.deletePorId(id);
     }
