@@ -2,6 +2,7 @@ package comigue.com.br.comigue.consumer;
 
 import java.util.List;
 
+import comigue.com.br.comigue.R;
 import comigue.com.br.comigue.pojo.Anotacao;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,7 +16,6 @@ import retrofit2.http.Path;
  * Created by Gabriel on 15/10/2017.
  */
 public interface IAnotacaoService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("anotacao/")
     Call<Anotacao> postCadastrar(@Body Anotacao anotacao);

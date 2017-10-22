@@ -27,7 +27,7 @@ public class UsuarioConsumer {
 
     public UsuarioConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IUsuarioService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.usuarioService = retrofit.create(IUsuarioService.class);

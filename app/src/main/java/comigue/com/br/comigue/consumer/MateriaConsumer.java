@@ -20,7 +20,7 @@ public class MateriaConsumer {
 
     public MateriaConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IMateriaService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.materiaService = retrofit.create(IMateriaService.class);
@@ -33,6 +33,14 @@ public class MateriaConsumer {
 
     public Call<Materia> putAtualizar(Materia materia) {
         return this.materiaService.putAtualizar(materia);
+    }
+
+    public Call<List<Materia>> buscarPorUsuario(Long idUsuario) {
+        return this.materiaService.buscarPorUsuario(idUsuario);
+    }
+
+    public Call<List<Materia>> buscarPorNome(String nome) {
+        return this.materiaService.buscarPorNome(nome);
     }
 
     public Call<List<Materia>> buscarTodos() {

@@ -14,8 +14,7 @@ import retrofit2.http.Path;
 /**
  * Created by Gabriel on 15/10/2017.
  */
-public interface IHorarioService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
+public interface IHorarioService{
 
     @POST("horario/")
     Call<Horario> postCadastrar(@Body Horario horario);

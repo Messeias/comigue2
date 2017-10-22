@@ -15,7 +15,6 @@ import retrofit2.http.Path;
  * Created by Gabriel on 15/10/2017.
  */
 public interface IConviteService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("convite/")
     Call<Convite> postCadastrar(@Body Convite convite);

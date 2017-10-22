@@ -44,26 +44,25 @@ public class CadastrarActivity extends Activity {
         usuario.setSenha(senha.getText().toString());
         usuario.setNome(nome.getText().toString());
 
-        usuarioConsumer.postCadastrar(usuario).enqueue(new Callback<Usuario>() {
+        Call<Usuario> call = usuarioConsumer.postLogar(usuario);
+        call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if(response.isSuccessful()){
-//                    usuario = response.body();
+                int responseCode = response.code();
+                if(responseCode == 201){
+                    Log.e("criado com sucesso ", "onResponse: ");
+                    Toast.makeText(CadastrarActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT);
                     Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
-//                    Bundle data = new Bundle();
-//                    data.putSerializable("usuario", usuario);
-//                    it.putExtras(data);
-//                    startActivity(it);
-//                    finish();
                     startActivity(it);
-                    Toast.makeText(CadastrarActivity.this, "Deveria ter cadastrado", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("deu erro", "onResponse: ");
+                    Toast.makeText(CadastrarActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT);
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                Toast.makeText(CadastrarActivity.this, "Falha na Comunicação", Toast.LENGTH_SHORT).show();
-                Log.e("YOUR_APP_LOG_TAG", t.getMessage() + "\t" + t.toString(), t.getCause());
+
             }
         });
     }

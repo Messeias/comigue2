@@ -20,7 +20,7 @@ public class ConviteConsumer {
 
     public ConviteConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IConviteService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.conviteService = retrofit.create(IConviteService.class);

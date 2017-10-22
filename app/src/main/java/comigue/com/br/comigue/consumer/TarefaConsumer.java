@@ -25,7 +25,7 @@ public class TarefaConsumer {
 
     public TarefaConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(ITarefaService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.tarefaService = retrofit.create(ITarefaService.class);

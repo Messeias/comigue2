@@ -16,7 +16,6 @@ import retrofit2.http.Path;
  */
 
 public interface IPlanoDeEnsinoService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("planoDeEnsino/")
     Call<PlanoDeEnsino> postCadastrar(@Body PlanoDeEnsino planoDeEnsino);

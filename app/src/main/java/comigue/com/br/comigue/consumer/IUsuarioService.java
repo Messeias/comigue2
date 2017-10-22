@@ -20,7 +20,7 @@ import comigue.com.br.comigue.pojo.Usuario;
  */
 
 public interface IUsuarioService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
+
 
     @POST("usuario/{login}/{senha}")
     Call<Usuario> postAutentica(@Path("login") String login, @Path("senha") String senha);

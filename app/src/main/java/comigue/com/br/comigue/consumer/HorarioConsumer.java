@@ -20,7 +20,7 @@ public class HorarioConsumer {
 
     public HorarioConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IHorarioService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.horarioService = retrofit.create(IHorarioService.class);

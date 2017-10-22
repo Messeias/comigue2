@@ -20,7 +20,7 @@ public class AnotacaoConsumer {
 
     public AnotacaoConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IAnotacaoService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.anotacaoService = retrofit.create(IAnotacaoService.class);

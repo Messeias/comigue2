@@ -22,7 +22,6 @@ public class LoginActivity extends Activity {
 
     private EditText email;
     private EditText senha;
-    private UsuarioConsumer usuarioConsummer = new UsuarioConsumer();
     private Usuario usuario;
 
     @Override
@@ -38,36 +37,41 @@ public class LoginActivity extends Activity {
         String emailInformado = this.email.getText().toString();
         String senhaInformada = this.senha.getText().toString();
 
-        usuarioConsummer.postAutentica(emailInformado, senhaInformada).enqueue(new Callback<Usuario>() {
+//        emailInformado = "henz@gmail.com";
+//        senhaInformada = "12345";
+
+        Usuario usuarioLogar = new Usuario();
+        usuarioLogar.setEmail(emailInformado);
+        usuarioLogar.setSenha(senhaInformada);
+
+
+        UsuarioConsumer usuarioConsummer = new UsuarioConsumer();
+
+
+        Call<Usuario> call = usuarioConsummer.postLogar(usuarioLogar);
+        call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.isSuccessful()) {
-                    usuario = response.body();
-                    Intent it = new Intent(LoginActivity.this, InicioActivity.class);
-                    Bundle data = new Bundle();
-                    data.putSerializable("usuario", usuario);
-                    it.putExtras(data);
-                    startActivity(it);
-                    finish();
-                    startActivity(it);
-//                    Toast.makeText(LoginActivity.this, "Deveria ter cadastrado", Toast.LENGTH_SHORT).show();
+                int responseCode = response.code();
+                if(responseCode == 200){
+                    Usuario user = response.body();
+                    Log.e("deu" , "onResponse: " + user.getNome() );
+                    Intent intent = new Intent(LoginActivity.this, InicioActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("usuario", user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    Log.e("Falha: " + responseCode, "onResponse: ");
                 }
+
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "Falha na Comunicação", Toast.LENGTH_SHORT).show();
-                Log.e("YOUR_APP_LOG_TAG", t.getMessage() + "\t" + t.toString(), t.getCause());
+                Log.e("não deu ",  t.getMessage());
             }
         });
-
-        if(usuario != null){
-            startActivity(new Intent(this, InicioActivity.class));
-        }else {
-            String msgErro = getString(R.string.erro_autenticacao);
-            Toast toast = Toast.makeText(this, msgErro, Toast.LENGTH_SHORT);
-            toast.show();
-        }
     }
 
     public void cadastrarOnClick(View v){

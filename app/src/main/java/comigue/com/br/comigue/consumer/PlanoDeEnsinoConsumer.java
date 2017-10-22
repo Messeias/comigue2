@@ -20,7 +20,7 @@ public class PlanoDeEnsinoConsumer {
 
     public PlanoDeEnsinoConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IPlanoDeEnsinoService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.planoDeEnsinoService = retrofit.create(IPlanoDeEnsinoService.class);

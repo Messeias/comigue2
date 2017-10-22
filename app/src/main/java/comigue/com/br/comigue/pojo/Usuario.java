@@ -69,4 +69,29 @@ public class Usuario implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+
+    public List<Convite> getConvites() {
+        return convites;
+    }
+
+    public void setConvites(List<Convite> convites) {
+        this.convites = convites;
+    }
+
+    public List<Anotacao> getAnotacoes() {
+        return anotacoes;
+    }
+
+    public void setAnotacoes(List<Anotacao> anotacoes) {
+        this.anotacoes = anotacoes;
+    }
+
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
+    public void setTarefas(List<Tarefa> tarefas) {
+        this.tarefas = tarefas;
+    }
 }

@@ -20,7 +20,7 @@ public class AssuntoConsumer {
 
     public AssuntoConsumer() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl(IAssuntoService.URL_BASE)
+                .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         this.assuntoService = retrofit.create(IAssuntoService.class);

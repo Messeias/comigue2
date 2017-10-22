@@ -16,7 +16,6 @@ import retrofit2.http.Path;
  */
 
 public interface IMateriaService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("materia/")
     Call<Materia> postCadastrar(@Body Materia materia);
@@ -29,6 +28,9 @@ public interface IMateriaService {
 
     @GET("materia/buscar/{nome}")
     Call<List<Materia>> buscarPorNome(@Path("nome") String nome);
+
+    @GET("materia/usuario/{idUsuario}")
+    Call<List<Materia>> buscarPorUsuario(@Path("idUsuario") Long id);
 
     @GET("materia/{id}")
     Call<Materia> buscarPorId(@Path("id")long id);

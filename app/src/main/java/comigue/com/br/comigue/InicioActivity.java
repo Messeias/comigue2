@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -17,7 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.MateriaConsumer;
+import comigue.com.br.comigue.pojo.Convite;
 import comigue.com.br.comigue.pojo.Materia;
+import comigue.com.br.comigue.pojo.Usuario;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Usuario on 06/10/2017.
@@ -27,24 +33,47 @@ public class InicioActivity extends Activity {
 
 
     private EditText pesquisar;
-    private ListView listaMaterias;
     private DrawerLayout menuLateral;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView drawerList;
+    private ListView listaMaterias;
     private List<Materia> materias;
-    private MateriaConsumer materiaConsumer = new MateriaConsumer();
+    private MateriaConsumer materiaConsumer;
+    private ListarMateriasAdapter materiasAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inicio);
+        this.materiaConsumer = new MateriaConsumer();
 
-        this.materias = (List<Materia> )materiaConsumer.buscarTodos();
-        final ListarMateriasAdapter materiasAdapter = new ListarMateriasAdapter(this, materias);
-        listaMaterias.setAdapter(materiasAdapter);
+        inicializaComponentes();
 
+        buscarMaterias();
 
+    }
 
+    public void buscarMaterias(){
+        Bundle bundle = getIntent().getExtras();
+        Usuario user = (Usuario) bundle.getSerializable("usuario");
+        Long idUsuario = user.getCodUsuario();
+        materiaConsumer.buscarPorUsuario(idUsuario).enqueue(new Callback<List<Materia>>() {
+            @Override
+            public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
+                InicioActivity.this.materias = response.body();
+                for (Materia m: InicioActivity.this.materias) {
+                    Log.e("" + m.getNome(), "onResponse: ");
+                }
+
+                InicioActivity.this.materiasAdapter = new ListarMateriasAdapter(InicioActivity.this, materias);
+                InicioActivity.this.listaMaterias.setAdapter(materiasAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Materia>> call, Throwable t) {
+                Log.e("não deu ", "onFailure: " );
+            }
+        });
     }
 
     public void inicializaComponentes(){

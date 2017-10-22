@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import comigue.com.br.comigue.pojo.Materia;
 public class ListarMateriasAdapter extends ArrayAdapter<Materia> {
 
     private Context context;
-    private List<Materia> materias = null;
+    private List<Materia> materias;
 
     public ListarMateriasAdapter(Context context, List<Materia> materias){
         super(context, 0, materias);
@@ -39,7 +40,8 @@ public class ListarMateriasAdapter extends ArrayAdapter<Materia> {
         horario.setText(materia.getHorarios().toString());
         TextView descricao =  (TextView) view.findViewById(R.id.list_descricao_materia);
         descricao.setText(materia.getDescricao());
-
+        view.setId((int) materia.getCodMateria());
+        Log.e("nome: "+materia.getNome(), "getView: id " +materia.getCodMateria() );
         return view;
     }
 }

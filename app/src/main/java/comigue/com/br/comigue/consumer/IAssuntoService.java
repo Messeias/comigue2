@@ -15,7 +15,6 @@ import retrofit2.http.Path;
  * Created by Gabriel on 15/10/2017.
  */
 public interface IAssuntoService {
-    static final String URL_BASE = "http://192.168.0.2:8081/";
 
     @POST("assunto/")
     Call<Assunto> postCadastrar(@Body Assunto assunto);
