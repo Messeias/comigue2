@@ -25,6 +25,9 @@ public interface ITarefaService {
     @GET("tarefa/")
     Call<List<Tarefa>> buscarTodos();
 
+    @GET("tarefa/aluno/{codAluno}")
+    Call<List<Tarefa>> buscarPorAluno(@Path("codAluno") long id);
+
     @GET("tarefa/{id}")
     Call<Tarefa> buscarPorId(@Path("id")long id);
 

@@ -43,6 +43,7 @@ public class InicioActivity extends Activity {
     private List<Materia> materias;
     private MateriaConsumer materiaConsumer;
     private ListarMateriasAdapter materiasAdapter;
+    private Usuario usuario;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -58,8 +59,8 @@ public class InicioActivity extends Activity {
 
     public void buscarMaterias(){
         Bundle bundle = getIntent().getExtras();
-        Usuario user = (Usuario) bundle.getSerializable("usuario");
-        Long idUsuario = user.getCodUsuario();
+        usuario = (Usuario) bundle.getSerializable("usuario");
+        Long idUsuario = usuario.getCodUsuario();
         materiaConsumer.buscarPorUsuario(idUsuario).enqueue(new Callback<List<Materia>>() {
             @Override
             public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
@@ -95,7 +96,11 @@ public class InicioActivity extends Activity {
                     case 1:
                         break;
                     case 2:
-                        startActivity(new Intent(InicioActivity.this, CalendarioActivity.class));
+                        Intent it = new Intent(InicioActivity.this, CalendarioActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("usuario", usuario);
+                        it.putExtras(bundle);
+                        startActivity(it);
                         finish();
                         break;
                     case 3:

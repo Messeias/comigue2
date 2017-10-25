@@ -44,6 +44,10 @@ public class TarefaConsumer {
         return this.tarefaService.buscarTodos();
     }
 
+    public Call<List<Tarefa>> buscarPorAluno(Long codAluno) {
+        return this.tarefaService.buscarPorAluno(codAluno);
+    }
+
     public Call<Tarefa> buscarPorId(long id){ return this.tarefaService.buscarPorId(id);}
 
     public Call<Void> deletePorId(long id) {
