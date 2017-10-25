@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:background="@color/black"
             android:weightSum="1"
-            android:elevation="10px"
-            android:layout_height="70px">
+            android:elevation="10sp"
+            android:layout_height="70sp">
             <!--Botão para mostrar menu lateral-->
 
             <Button
@@ -27,18 +27,18 @@
                 android:layout_gravity="center"
                 android:onClick="mostrarMenuLateral"
                 android:background="@drawable/menu"
-                android:layout_marginLeft="25px"
-                android:layout_width="40px"
-                android:layout_height="40px" />
+                android:layout_marginLeft="10sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp" />
 
 
             <!--Campo para digitar o texto de pesquisa-->
             <EditText
                 android:id="@+id/pesquisar"
                 android:layout_width="233dp"
-                android:layout_height="40px"
+                android:layout_height="50sp"
                 android:hint="@string/pesquisar"
-                android:textSize="19px"
+                android:textSize="18sp"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:background="@color/black"
@@ -53,10 +53,10 @@
                 android:id="@+id/btn_pesquisar"
                 android:background="@drawable/search"
                 android:onClick="pesquisarMateria"
-                android:layout_height="30px"
-                android:layout_marginLeft="20px"
+                android:layout_height="25sp"
+                android:layout_marginLeft="15sp"
                 android:layout_gravity="center"
-                android:layout_width="30px" />
+                android:layout_width="25sp" />
 
         </LinearLayout>
 

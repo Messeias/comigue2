@@ -1,6 +1,8 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -82,8 +85,28 @@ public class InicioActivity extends Activity {
 
         menuLateral = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Arrays.asList("Editar Perfil", "Anotações Pessoais", "Meu Calendário", "Criar Novo Grupo")));
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Arrays.asList("Editar Perfil", "Anotações Pessoais", "Meu Calendário", "Criar Novo Grupo", "Sair")));
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        startActivity(new Intent(InicioActivity.this, CalendarioActivity.class));
+                        finish();
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        startActivity(new Intent(InicioActivity.this, LoginActivity.class));
+                        finish();
+                        break;
+                }
+            }
+        });
 
         mDrawerToggle = new ActionBarDrawerToggle(this, menuLateral,
                 R.string.drawer_open, R.string.drawer_close) {
