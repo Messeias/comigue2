@@ -4,6 +4,9 @@ package comigue.com.br.comigue.consumer;
  * Created by alunoinfo on 10/10/17.
  */
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,9 +29,11 @@ public class UsuarioConsumer {
     private Retrofit retrofit;
 
     public UsuarioConsumer() {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd").create();
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(IService.URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         this.usuarioService = retrofit.create(IUsuarioService.class);
     }

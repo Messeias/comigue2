@@ -1,12 +1,15 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+
 
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class Tarefa {
+public class Tarefa implements Serializable {
 
     private long codTarefa;
     private String nome;

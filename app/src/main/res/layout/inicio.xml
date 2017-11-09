@@ -73,7 +73,7 @@
 
     <LinearLayout
     android:orientation="vertical"
-        android:layout_width="320dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
@@ -87,7 +87,8 @@
             android:background="@color/black">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="125sp"
+                android:layout_margin="10sp"
                 android:background="@drawable/comigue"/>
         </RelativeLayout>
         <ListView

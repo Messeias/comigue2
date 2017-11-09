@@ -1,10 +1,12 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class Convite {
+public class Convite implements Serializable {
 
     private long codConvite;
     private boolean status;

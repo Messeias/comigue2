@@ -1,16 +1,18 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class PlanoDeEnsino {
+public class PlanoDeEnsino implements Serializable {
 
     private long codPlanoDeEnsino;
     private String professor;
     private List<Assunto> assuntos;
+    private Materia materia;
 
     public PlanoDeEnsino() {
         super();
@@ -46,5 +48,12 @@ public class PlanoDeEnsino {
         this.assuntos = assuntos;
     }
 
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
 
 }

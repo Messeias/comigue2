@@ -1,10 +1,12 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class Anotacao {
+public class Anotacao implements Serializable {
 
     private long codAnotacao;
     private String titulo;

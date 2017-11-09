@@ -1,11 +1,12 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -16,12 +17,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.MateriaConsumer;
-import comigue.com.br.comigue.pojo.Convite;
 import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.Usuario;
 import retrofit2.Call;
@@ -86,7 +85,7 @@ public class InicioActivity extends Activity {
 
         menuLateral = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
-        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Arrays.asList("Editar Perfil", "Anotações Pessoais", "Meu Calendário", "Criar Novo Grupo", "Sair")));
+        drawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, Arrays.asList("Editar Perfil", "Anotações Pessoais", "Meu Calendário", "Criar Nova Matéria", "Sair")));
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -104,6 +103,12 @@ public class InicioActivity extends Activity {
                         finish();
                         break;
                     case 3:
+                        Intent it2 = new Intent(InicioActivity.this, NovaMateriaActivity.class);
+                        Bundle bundle2 = new Bundle();
+                        bundle2.putSerializable("usuario", usuario);
+                        it2.putExtras(bundle2);
+                        startActivity(it2);
+                        finish();
                         break;
                     case 4:
                         startActivity(new Intent(InicioActivity.this, LoginActivity.class));
@@ -155,4 +160,21 @@ public class InicioActivity extends Activity {
         toast.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Fechar aplicativo")
+                .setMessage("Are you sure you want to close this activity?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 }

@@ -61,6 +61,7 @@ public class LoginActivity extends Activity {
                     bundle.putSerializable("usuario", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    finish();
                 } else {
                     Log.e("Falha: " + responseCode, "onResponse: ");
                 }

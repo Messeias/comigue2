@@ -1,12 +1,13 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class Materia {
+public class Materia implements Serializable {
 
     private long codMateria;
     private String nome;
@@ -16,6 +17,7 @@ public class Materia {
     private List<Anotacao> anotacoes;
     private List<Convite> convites;
     private List<Tarefa> tarefas;
+    private PlanoDeEnsino planoDeEnsino;
 
     public Materia() {
         super();
@@ -100,4 +102,17 @@ public class Materia {
     }
 
 
+    @Override
+    public String toString(){
+        return this.getNome();
+    }
+
+
+    public PlanoDeEnsino getPlanoDeEnsino() {
+        return planoDeEnsino;
+    }
+
+    public void setPlanoDeEnsino(PlanoDeEnsino planoDeEnsino) {
+        this.planoDeEnsino = planoDeEnsino;
+    }
 }

@@ -19,6 +19,10 @@
         <activity android:name=".CadastrarActivity"></activity>
         <activity android:name=".InicioActivity"></activity>
         <activity android:name=".CalendarioActivity"></activity>
+        <activity android:name=".DiaActivity"></activity>
+        <activity android:name=".NovaTarefaActivity"></activity>
+        <activity android:name=".NovaMateriaActivity"></activity>
+        <activity android:name=".NovoPlanoDeEnsinoActivity"></activity>
     </application>
 
 </manifest>

@@ -1,12 +1,13 @@
 package comigue.com.br.comigue.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by alunoinfo on 10/10/17.
  */
 
-public class Assunto {
+public class Assunto implements Serializable {
     private long codAssunto;
     private String descricao;
     private String nome;
@@ -77,5 +78,10 @@ public class Assunto {
         this.planoDeEnsino = planoDeEnsino;
     }
 
+    @Override
+    public boolean equals(Object o){
+        Assunto ass = (Assunto) o;
+        return  this.getNome().equals(ass.getNome()) && this.getDescricao() == ass.getDescricao();
+    }
 
 }

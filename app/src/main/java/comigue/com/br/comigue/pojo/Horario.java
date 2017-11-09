@@ -1,5 +1,9 @@
 package comigue.com.br.comigue.pojo;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,8 +11,9 @@ import java.util.Date;
  */
 
 
-public class Horario {
+public class Horario implements Serializable {
     private long codHorario;
+
     private Date hora;
     private Materia materia;
 

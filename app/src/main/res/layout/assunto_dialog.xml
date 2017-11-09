@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/list_item"
+    android:layout_height="match_parent"
+    android:padding="10sp"
+    android:weightSum="1">
+
+    <TextView
+        android:text="Assunto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_weight="0.06" />
+
+    <EditText
+        android:id="@+id/novo_assunto_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:inputType="textNoSuggestions"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="Nome" />
+
+
+    <EditText
+        android:id="@+id/novo_assunto_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:layout_margin="5sp"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="Descrição" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Data Início"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nova_data_inicio_ass"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_margin="5sp"
+            android:onClick="escolherData"
+            android:textColor="@color/black"
+            android:layout_weight="0.06" />
+        <TextView
+            android:text="Data Fim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nova_data_fim_ass"
+            android:textSize="20sp"
+            android:layout_margin="5sp"
+            android:gravity="center"
+            android:onClick="escolherData"
+            android:textColor="@color/black"
+            android:layout_weight="0.06" />
+    </LinearLayout>
+
+
+    <Button
+        android:text="Cadastrar assunto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bnt_assunto_cad"
+        android:textColor="@color/white"
+        android:layout_marginTop="20sp"
+        android:background="@color/transparent"
+        style="@style/AudioFileInfoOverlayText" />
+</LinearLayout>

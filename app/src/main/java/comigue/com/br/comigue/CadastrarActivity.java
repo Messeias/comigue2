@@ -44,7 +44,7 @@ public class CadastrarActivity extends Activity {
         usuario.setSenha(senha.getText().toString());
         usuario.setNome(nome.getText().toString());
 
-        Call<Usuario> call = usuarioConsumer.postLogar(usuario);
+        Call<Usuario> call = usuarioConsumer.postCadastrar(usuario);
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -54,6 +54,7 @@ public class CadastrarActivity extends Activity {
                     Toast.makeText(CadastrarActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT);
                     Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
                     startActivity(it);
+                    finish();
                 } else {
                     Log.e("deu erro", "onResponse: ");
                     Toast.makeText(CadastrarActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT);
@@ -62,7 +63,7 @@ public class CadastrarActivity extends Activity {
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-
+                Toast.makeText(CadastrarActivity.this, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -73,4 +74,6 @@ public class CadastrarActivity extends Activity {
         this.celular = (EditText) findViewById(R.id.celular);
         this.senha = (EditText) findViewById(R.id.senha);
     }
+
+
 }
