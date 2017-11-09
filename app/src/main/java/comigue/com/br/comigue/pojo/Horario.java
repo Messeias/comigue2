@@ -1,7 +1,5 @@
 package comigue.com.br.comigue.pojo;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import java.io.Serializable;
 import java.util.Date;
