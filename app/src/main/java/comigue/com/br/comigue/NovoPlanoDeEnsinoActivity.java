@@ -24,6 +24,7 @@ import comigue.com.br.comigue.consumer.AssuntoConsumer;
 import comigue.com.br.comigue.consumer.MateriaConsumer;
 import comigue.com.br.comigue.consumer.PlanoDeEnsinoConsumer;
 import comigue.com.br.comigue.pojo.Assunto;
+import comigue.com.br.comigue.pojo.Convite;
 import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.PlanoDeEnsino;
 import comigue.com.br.comigue.pojo.Usuario;
@@ -48,9 +49,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
     private TextView dataFim, dataInicio;
     private View mView;
     private AlertDialog dialogAssunto;
-    private AssuntoConsumer assuntoConsumer;
     private MateriaConsumer materiaConsumer;
-    private PlanoDeEnsinoConsumer planoDeEnsinoConsumer;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -152,6 +151,15 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
 
             materia.setPlanoDeEnsino(planoDeEnsino);
 
+//            Convite convite = new Convite();
+//            convite.setMateria(materia);
+//            convite.setUsuario(usuario);
+//            convite.setStatus(true);
+//
+//            List<Convite> cvts = new ArrayList<>();
+//            cvts.add(convite);
+//
+//            materia.setConvites(cvts);
 
             materiaConsumer = new MateriaConsumer();
             Call<Materia> call = materiaConsumer.postCadastrar(materia);
@@ -161,7 +169,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
                 public void onResponse(Call<Materia> call, Response<Materia> response) {
                     Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Cadstrou tudo eu acho", Toast.LENGTH_SHORT).show();
                     Log.i(response.code()+" "+ call.request().toString(), "onResponse: ");
-                    Log.i(response.errorBody().toString(), "onResponse: ");
+
                 }
 
                 @Override
