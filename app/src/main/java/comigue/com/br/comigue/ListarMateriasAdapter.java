@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import comigue.com.br.comigue.pojo.Horario;
 import comigue.com.br.comigue.pojo.Materia;
 
 /**
@@ -36,8 +38,16 @@ public class ListarMateriasAdapter extends ArrayAdapter<Materia> {
 
         TextView nome = (TextView) view.findViewById(R.id.list_nome_materia);
         nome.setText(materia.getNome());
+
         TextView horario = (TextView) view.findViewById(R.id.list_horario_materia);
-        horario.setText(materia.getHorarios().toString());
+        String hrs = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE/hh:mm");
+        for(Horario h: materia.getHorarios()){
+            hrs = sdf.format(h.getHora()) +" "+ hrs;
+        }
+        horario.setText(hrs);
+
+
         TextView descricao =  (TextView) view.findViewById(R.id.list_descricao_materia);
         descricao.setText(materia.getDescricao());
         view.setId((int) materia.getCodMateria());

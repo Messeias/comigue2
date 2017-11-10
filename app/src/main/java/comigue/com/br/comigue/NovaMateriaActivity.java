@@ -157,4 +157,14 @@ public class NovaMateriaActivity extends Activity implements DatePickerDialog.On
 
         return nP && hP && dP;
     }
+
+    @Override
+    public void onBackPressed(){
+        Bundle bd = new Bundle();
+        bd.putSerializable("usuario", usuario);
+        Intent i = new Intent(this, InicioActivity.class);
+        i.putExtras(bd);
+        startActivity(i);
+        finish();
+    }
 }

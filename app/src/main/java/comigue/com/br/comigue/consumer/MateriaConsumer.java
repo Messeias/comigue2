@@ -47,7 +47,7 @@ public class MateriaConsumer {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
-                return json == null ? null : new Date(json.getAsLong());
+                return json == null ? null : new Date(/*json.getAsLong()*/);
             }
         };
 

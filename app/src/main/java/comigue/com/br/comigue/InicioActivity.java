@@ -75,6 +75,8 @@ public class InicioActivity extends Activity {
             @Override
             public void onFailure(Call<List<Materia>> call, Throwable t) {
                 Log.e("não deu ", "onFailure: " );
+                t.printStackTrace();
+                Log.i(t.getMessage(), "onFailure: ");
             }
         });
     }

@@ -43,7 +43,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
-    // https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl
-    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
 
 }

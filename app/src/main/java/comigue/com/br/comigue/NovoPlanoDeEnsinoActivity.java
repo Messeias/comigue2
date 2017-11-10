@@ -3,6 +3,7 @@ package comigue.com.br.comigue;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.AssuntoConsumer;
+import comigue.com.br.comigue.consumer.ConviteConsumer;
 import comigue.com.br.comigue.consumer.MateriaConsumer;
 import comigue.com.br.comigue.consumer.PlanoDeEnsinoConsumer;
 import comigue.com.br.comigue.pojo.Assunto;
@@ -59,6 +61,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
     }
 
     public void inicializaComponentes(){
+        usuario = (Usuario)getIntent().getExtras().getSerializable("usuario");
         mView = getLayoutInflater().inflate(R.layout.assunto_dialog, null);
 
         nomeProf = (EditText) findViewById(R.id.novo_plano_prof);
@@ -151,16 +154,6 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
 
             materia.setPlanoDeEnsino(planoDeEnsino);
 
-//            Convite convite = new Convite();
-//            convite.setMateria(materia);
-//            convite.setUsuario(usuario);
-//            convite.setStatus(true);
-//
-//            List<Convite> cvts = new ArrayList<>();
-//            cvts.add(convite);
-//
-//            materia.setConvites(cvts);
-
             materiaConsumer = new MateriaConsumer();
             Call<Materia> call = materiaConsumer.postCadastrar(materia);
 
@@ -169,7 +162,16 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
                 public void onResponse(Call<Materia> call, Response<Materia> response) {
                     Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Cadstrou tudo eu acho", Toast.LENGTH_SHORT).show();
                     Log.i(response.code()+" "+ call.request().toString(), "onResponse: ");
+                    materia = response.body();
+                    ConviteConsumer.convidarUsuario(usuario, materia);
 
+                    Bundle b = new Bundle();
+                    b.putSerializable("materia", materia);
+                    b.putSerializable("usuario", usuario);
+                    Intent intent = new Intent(NovoPlanoDeEnsinoActivity.this, InicioActivity.class);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
