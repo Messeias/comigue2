@@ -71,7 +71,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
 
         assuntos = new ArrayList<>();
 
-        listaAssuntosAdapter = new ListaAssuntosAdapter(this, assuntos);
+        listaAssuntosAdapter = new ListaAssuntosAdapter(this, assuntos, true);
         listaAssuntos.setAdapter(listaAssuntosAdapter);
 
         listaAssuntos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

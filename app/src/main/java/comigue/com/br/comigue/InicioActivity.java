@@ -70,6 +70,19 @@ public class InicioActivity extends Activity {
 
                 InicioActivity.this.materiasAdapter = new ListarMateriasAdapter(InicioActivity.this, materias);
                 InicioActivity.this.listaMaterias.setAdapter(materiasAdapter);
+                InicioActivity.this.listaMaterias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Materia materiaPassar = (Materia) adapterView.getItemAtPosition(i);
+                        Intent it1 = new Intent(InicioActivity.this, AnotacaoActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("usuario", usuario);
+                        bundle1.putSerializable("materia", materiaPassar);
+                        it1.putExtras(bundle1);
+                        startActivity(it1);
+                        finish();
+                    }
+                });
             }
 
             @Override
@@ -93,8 +106,20 @@ public class InicioActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0:
+                        Intent it0 = new Intent(InicioActivity.this, EditarPerfilActivity.class);
+                        Bundle bundle0 = new Bundle();
+                        bundle0.putSerializable("usuario", usuario);
+                        it0.putExtras(bundle0);
+                        startActivity(it0);
+                        finish();
                         break;
                     case 1:
+                        Intent it1 = new Intent(InicioActivity.this, AnotacaoActivity.class);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putSerializable("usuario", usuario);
+                        it1.putExtras(bundle1);
+                        startActivity(it1);
+                        finish();
                         break;
                     case 2:
                         Intent it = new Intent(InicioActivity.this, CalendarioActivity.class);

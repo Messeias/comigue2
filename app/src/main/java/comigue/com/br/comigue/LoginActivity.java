@@ -37,8 +37,8 @@ public class LoginActivity extends Activity {
         String emailInformado = this.email.getText().toString();
         String senhaInformada = this.senha.getText().toString();
 
-        emailInformado = "henz@gmail.com";
-        senhaInformada = "12345";
+//        emailInformado = "henz@gmail.com";
+//        senhaInformada = "12345";
 
         Usuario usuarioLogar = new Usuario();
         usuarioLogar.setEmail(emailInformado);

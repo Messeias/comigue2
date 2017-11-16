@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 //import android.widget.CalendarView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -18,6 +20,8 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.TarefaConsumer;
@@ -65,7 +69,14 @@ public class CalendarioActivity extends Activity {
                     List<Event> events = new ArrayList<>();
 
                     for(Tarefa t : tarefas){
-                        events.add(new Event(t.getDataEntrega(), Color.RED));
+                        int df = 2;
+                        switch (t.getEtiqueta()){
+                            case 'f': df = 0; break;
+                            case 'm': df = 1; break;
+                            case 'd': df = 2; break;
+                        }
+                        events.add(new Event(t.getDataEntrega(), df));
+                        Collections.sort(events);
                     }
                     decorarEventos(events);
                 } else {
@@ -104,20 +115,15 @@ public class CalendarioActivity extends Activity {
 
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent(CalendarioActivity.this, InicioActivity.class);
+        retornarInicio(new Button(this));
+    }
+
+    public void retornarInicio(View v){
+        Intent intent = new Intent(this, InicioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("usuario", usuario);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
-
-//    public void adjustFontScale(Configuration configuration) {
-//        configuration.fontScale = (float) 2;
-//        DisplayMetrics metrics = getResources().getDisplayMetrics();
-//        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-//        wm.getDefaultDisplay().getMetrics(metrics);
-//        metrics.scaledDensity = configuration.fontScale * metrics.density;
-//        getBaseContext().getResources().updateConfiguration(configuration, metrics);
-//    }
 }

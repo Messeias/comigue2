@@ -21,11 +21,13 @@ public class ListaAssuntosAdapter extends ArrayAdapter<Assunto> {
 
     private Context context;
     private List<Assunto> assuntos;
+    private boolean excluir;
 
-    public ListaAssuntosAdapter(Context context, List<Assunto> assuntos){
+    public ListaAssuntosAdapter(Context context, List<Assunto> assuntos, boolean ecluir){
         super(context, 0, assuntos);
         this.assuntos = assuntos;
         this.context = context;
+        this.excluir = ecluir;
     }
 
     @Override
@@ -49,6 +51,10 @@ public class ListaAssuntosAdapter extends ArrayAdapter<Assunto> {
         TextView desc =  (TextView) view.findViewById(R.id.list_descricao_assunto);
         desc.setText(assunto.getDescricao());
 
+        if(!excluir){
+            TextView exc =  (TextView) view.findViewById(R.id.btn_excluir_ass);
+            exc.setText("");
+        }
 
         Log.e("nome: "+assunto.getNome(), "getView: id " +assunto.getCodAssunto() );
         return view;

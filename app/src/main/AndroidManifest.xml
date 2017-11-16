@@ -23,6 +23,9 @@
         <activity android:name=".NovaTarefaActivity"></activity>
         <activity android:name=".NovaMateriaActivity"></activity>
         <activity android:name=".NovoPlanoDeEnsinoActivity"></activity>
+        <activity android:name=".EditarPerfilActivity"></activity>
+        <activity android:name=".AnotacaoActivity"></activity>
+        <activity android:name=".PlanoDeEnsinoActivity"></activity>
     </application>
 
 </manifest>

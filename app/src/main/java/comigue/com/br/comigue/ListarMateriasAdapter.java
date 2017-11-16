@@ -42,7 +42,9 @@ public class ListarMateriasAdapter extends ArrayAdapter<Materia> {
         TextView horario = (TextView) view.findViewById(R.id.list_horario_materia);
         String hrs = "";
         SimpleDateFormat sdf = new SimpleDateFormat("EEE/hh:mm");
+
         for(Horario h: materia.getHorarios()){
+            Log.i(h.getHora().toString(), "getView: ");
             hrs = sdf.format(h.getHora()) +" "+ hrs;
         }
         horario.setText(hrs);

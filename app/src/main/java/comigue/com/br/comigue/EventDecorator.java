@@ -21,9 +21,9 @@ public class EventDecorator implements DayViewDecorator {
     private final Drawable drawable;
     private final CalendarDay day;
 
-    public EventDecorator(MaterialCalendarView view, Date date, int color) {
+    public EventDecorator(MaterialCalendarView view, Date date, int img) {
         this.day = CalendarDay.from(date);
-        this.drawable = createBaseDrawable(view.getContext());
+        this.drawable = createBaseDrawable(view.getContext(), img);
 //        view.setTileSize(100);
 
     }
@@ -42,7 +42,15 @@ public class EventDecorator implements DayViewDecorator {
     }
 
 
-    private static Drawable createBaseDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.drawable.prova_256);
+    private static Drawable createBaseDrawable(Context context, int wich) {
+        switch (wich){
+            case 0:
+                return ContextCompat.getDrawable(context, R.drawable.easy2);
+            case 1:
+                return ContextCompat.getDrawable(context, R.drawable.medium);
+            case 2:
+                return ContextCompat.getDrawable(context, R.drawable.hard);
+        }
+        return ContextCompat.getDrawable(context, R.drawable.hard);
     }
 }

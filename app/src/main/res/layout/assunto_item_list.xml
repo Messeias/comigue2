@@ -33,8 +33,9 @@
                 android:layout_weight="0.3"
                 android:paddingLeft="15dp"
                 android:text="-"
+                android:id="@+id/btn_excluir_ass"
                 android:onClick="removerAssunto"
-                android:textSize="35sp"
+                android:textSize="30sp"
                 android:textColor="@android:color/holo_red_dark"
                 android:textStyle="normal|bold" />
 
@@ -49,7 +50,7 @@
                 android:id="@+id/list_data_inicio_assunto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10px"
+                android:padding="7px"
                 android:layout_weight="0.3"
                 android:text="Início: 24/10"
                 android:gravity="start"
@@ -82,13 +83,13 @@
             <TextView
                 android:id="@+id/list_descricao_assunto"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:padding="10sp"
                 android:text="Matemática com a turma 4I, ministrada pelo Roberto"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:gravity="start"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
