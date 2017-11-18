@@ -1,5 +1,7 @@
 package comigue.com.br.comigue.consumer;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -12,6 +14,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,7 +50,14 @@ public class MateriaConsumer {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
-                return json == null ? null : new Date(/*json.getAsLong()*/);
+                Log.i(json.getAsLong()+"", "deserialize: ");
+                Date dataJ = new Date(json.getAsLong());
+//                try {
+//                    dataJ = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(json.getAsString());
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+                return json == null ? null : dataJ;
             }
         };
 

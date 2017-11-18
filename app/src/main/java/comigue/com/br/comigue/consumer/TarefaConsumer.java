@@ -4,9 +4,21 @@ package comigue.com.br.comigue.consumer;
  * Created by alunoinfo on 10/10/17.
  */
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,8 +40,36 @@ public class TarefaConsumer {
     private Retrofit retrofit;
 
     public TarefaConsumer() {
+
+        JsonSerializer<Date> ser = new JsonSerializer<Date>() {
+            @Override
+            public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext
+                    context) {
+                return src == null ? null : new JsonPrimitive(src.getTime());
+            }
+        };
+
+        JsonDeserializer<Date> deser = new JsonDeserializer<Date>() {
+            @Override
+            public Date deserialize(JsonElement json, Type typeOfT,
+                                    JsonDeserializationContext context) throws JsonParseException {
+                Date dataJ = null;
+                try {
+                    dataJ = new SimpleDateFormat("yyyy-MM-dd").parse(json.getAsString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return json == null ? null : dataJ;
+            }
+        };
+
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd").create();
+                .registerTypeAdapter(Date.class, ser)
+                .registerTypeAdapter(Date.class, deser).create();
+
+//        Gson gson = new GsonBuilder()
+//                .setDateFormat("yyyy-MM-dd").create();
+
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(IService.URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create(gson))

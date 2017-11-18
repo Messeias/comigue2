@@ -51,13 +51,13 @@ public class CadastrarActivity extends Activity {
                 int responseCode = response.code();
                 if(responseCode == 201){
                     Log.e("criado com sucesso ", "onResponse: ");
-                    Toast.makeText(CadastrarActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT);
+                    Toast.makeText(CadastrarActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                     Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
                     startActivity(it);
                     finish();
                 } else {
                     Log.e("deu erro", "onResponse: ");
-                    Toast.makeText(CadastrarActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT);
+                    Toast.makeText(CadastrarActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                 }
             }
 

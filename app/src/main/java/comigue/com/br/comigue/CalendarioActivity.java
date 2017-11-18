@@ -87,7 +87,7 @@ public class CalendarioActivity extends Activity {
             @Override
             public void onFailure(Call<List<Tarefa>> call, Throwable t) {
                 Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas", Toast.LENGTH_SHORT).show();
-                Log.i("onFailure: ", t.getMessage() + "\n "+ t.getCause().toString());
+//                Log.i("onFailure: ", t.getMessage() + "\n "+ t.getCause().toString());
             }
         });
 

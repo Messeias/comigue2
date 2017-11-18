@@ -37,8 +37,8 @@ public class LoginActivity extends Activity {
         String emailInformado = this.email.getText().toString();
         String senhaInformada = this.senha.getText().toString();
 
-//        emailInformado = "henz@gmail.com";
-//        senhaInformada = "12345";
+        emailInformado = "oseias@gmail.com";
+        senhaInformada = "josias";
 
         Usuario usuarioLogar = new Usuario();
         usuarioLogar.setEmail(emailInformado);
@@ -64,6 +64,7 @@ public class LoginActivity extends Activity {
                     finish();
                 } else {
                     Log.e("Falha: " + responseCode, "onResponse: ");
+                    Toast.makeText(LoginActivity.this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -71,6 +72,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Log.e("não deu ",  t.getMessage());
+                Toast.makeText(LoginActivity.this, "Não foi possível conectar-se ao servidor", Toast.LENGTH_SHORT).show();
             }
         });
     }
