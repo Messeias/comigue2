@@ -39,6 +39,10 @@ public class PlanoDeEnsinoConsumer {
         return this.planoDeEnsinoService.buscarTodos();
     }
 
+    public Call<PlanoDeEnsino> buscaPorMateria(long cod) {
+        return this.planoDeEnsinoService.buscarPorMateria(cod);
+    }
+
     public Call<PlanoDeEnsino> buscarPorId(long id){ return this.planoDeEnsinoService.buscarPorId(id);}
 
     public Call<Void> deletePorId(long id) {

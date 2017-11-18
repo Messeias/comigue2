@@ -30,6 +30,7 @@
                     android:layout_height="35sp" />
 
                 <TextView
+                    android:id="@+id/navTitleAnotacao"
                     android:text="Matéria teste"
                     android:layout_marginLeft="15dp"
                     android:layout_gravity="center"

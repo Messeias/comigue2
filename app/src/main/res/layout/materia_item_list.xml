@@ -27,6 +27,9 @@
                 android:lines="1"
                 android:textColor="@color/black"
                 android:textStyle="normal|bold"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_weight="0.75" />
 
             <TextView
@@ -34,13 +37,15 @@
                 android:layout_height="wrap_content"
                 android:padding="10px"
                 android:text="8:45"
+
                 android:lines="1"
                 android:layout_marginLeft="5sp"
                 android:gravity="start"
                 android:textAlignment="textStart"
                 android:textSize="13sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:singleLine="true"
                 android:scrollHorizontally="true"
                 android:ellipsize="marquee"
@@ -54,6 +59,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <TextView
@@ -61,6 +69,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="10px"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:text="Matemática com a turma 4I, ministrada pelo Roberto"
                 android:textAlignment="center"
                 android:textColor="@color/black"

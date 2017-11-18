@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import comigue.com.br.comigue.consumer.UsuarioConsumer;
+import comigue.com.br.comigue.pojo.Anotacao;
 import comigue.com.br.comigue.pojo.Usuario;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +44,12 @@ public class CadastrarActivity extends Activity {
         usuario.setEmail(email.getText().toString());
         usuario.setSenha(senha.getText().toString());
         usuario.setNome(nome.getText().toString());
+
+        Anotacao a = new Anotacao();
+        a.setTitulo("Anotações de "+usuario.getNome());
+        a.setTexto("Faça suas anotações aqui...");
+
+        usuario.setAnotacoes(a);
 
         Call<Usuario> call = usuarioConsumer.postCadastrar(usuario);
         call.enqueue(new Callback<Usuario>() {

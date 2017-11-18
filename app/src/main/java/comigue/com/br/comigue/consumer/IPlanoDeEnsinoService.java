@@ -26,6 +26,9 @@ public interface IPlanoDeEnsinoService {
     @GET("planoDeEnsino/")
     Call<List<PlanoDeEnsino>> buscarTodos();
 
+    @GET("planoDeEnsino/materia/{cod}")
+    Call<PlanoDeEnsino> buscarPorMateria(@Path("cod") long cod);
+
     @GET("planoDeEnsino/{id}")
     Call<PlanoDeEnsino> buscarPorId(@Path("id")long id);
 

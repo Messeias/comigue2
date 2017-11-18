@@ -14,7 +14,7 @@ public class Materia implements Serializable {
     private List<Horario> horarios;
     private String descricao;
     private boolean publico;
-    private List<Anotacao> anotacoes;
+    private Anotacao anotacoes;
     private List<Convite> convites;
     private List<Tarefa> tarefas;
     private PlanoDeEnsino planoDeEnsino;
@@ -23,7 +23,7 @@ public class Materia implements Serializable {
         super();
     }
 
-    public Materia(String nome, List<Horario> horarios, String descricao, boolean publico, List<Anotacao> anotacoes,
+    public Materia(String nome, List<Horario> horarios, String descricao, boolean publico, Anotacao anotacoes,
                    List<Convite> convites, List<Tarefa> tarefas) {
         super();
         this.nome = nome;
@@ -77,11 +77,11 @@ public class Materia implements Serializable {
         this.publico = publico;
     }
 
-    public List<Anotacao> getAnotacoes() {
+    public Anotacao getAnotacoes() {
         return anotacoes;
     }
 
-    public void setAnotacoes(List<Anotacao> anotacoes) {
+    public void setAnotacoes(Anotacao anotacoes) {
         this.anotacoes = anotacoes;
     }
 

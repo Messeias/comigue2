@@ -19,7 +19,7 @@ public class Usuario implements Serializable{
     private String senha;
     private String nome;
     private List<Convite> convites;
-    private List<Anotacao> anotacoes;
+    private Anotacao anotacoes;
     private List<Tarefa> tarefas;
 
     public Usuario() {
@@ -27,7 +27,7 @@ public class Usuario implements Serializable{
     }
 
     public Usuario(String celular, String email, String senha, String nome, List<Convite> convites,
-                   List<Anotacao> anotacoes, List<Tarefa> tarefas) {
+                   Anotacao anotacoes, List<Tarefa> tarefas) {
         super();
         this.celular = celular;
         this.email = email;
@@ -79,11 +79,11 @@ public class Usuario implements Serializable{
         this.convites = convites;
     }
 
-    public List<Anotacao> getAnotacoes() {
+    public Anotacao getAnotacoes() {
         return anotacoes;
     }
 
-    public void setAnotacoes(List<Anotacao> anotacoes) {
+    public void setAnotacoes(Anotacao anotacoes) {
         this.anotacoes = anotacoes;
     }
 

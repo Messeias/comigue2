@@ -73,6 +73,7 @@ public class InicioActivity extends Activity {
                 InicioActivity.this.listaMaterias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                        Toast.makeText(InicioActivity.this, "Pikou", Toast.LENGTH_SHORT).show();
                         Materia materiaPassar = (Materia) adapterView.getItemAtPosition(i);
                         Intent it1 = new Intent(InicioActivity.this, AnotacaoActivity.class);
                         Bundle bundle1 = new Bundle();

@@ -3,19 +3,25 @@ package comigue.com.br.comigue;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import comigue.com.br.comigue.consumer.PlanoDeEnsinoConsumer;
 import comigue.com.br.comigue.pojo.Assunto;
 import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.PlanoDeEnsino;
 import comigue.com.br.comigue.pojo.Usuario;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Usuario on 10/11/2017.
@@ -30,6 +36,7 @@ public class PlanoDeEnsinoActivity extends Activity{
     private ListView listaAssuntos;
     private ListaAssuntosAdapter listaAssuntosAdapter;
     private TextView nomeM, nomeP;
+    private PlanoDeEnsinoConsumer planoDeEnsinoConsumer;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -40,6 +47,7 @@ public class PlanoDeEnsinoActivity extends Activity{
 
     public void inicializaComponentes(){
         usuario = (Usuario)getIntent().getExtras().getSerializable("usuario");
+        materia = (Materia)getIntent().getExtras().getSerializable("materia");
 
         listaAssuntos = (ListView) findViewById(R.id.plano_lista_assuntos);
         nomeM = (TextView) findViewById(R.id.plano_nome_mat);
@@ -47,25 +55,38 @@ public class PlanoDeEnsinoActivity extends Activity{
 
         assuntos = new ArrayList<>();
 
-        Assunto a = new Assunto();
-        a.setNome("Assunto teste 1");
-        a.setDescricao("Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, " +
-                "e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma");
-        a.setDataInicio(new Date());
-        a.setDataFim(new Date());
+        planoDeEnsinoConsumer = new PlanoDeEnsinoConsumer();
 
-        Assunto a2 = new Assunto();
-        a2.setNome("Assunto teste 2");
-        a2.setDescricao("Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, " +
-                "e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma");
-        a2.setDataInicio(new Date());
-        a2.setDataFim(new Date());
+        Call<PlanoDeEnsino> call = planoDeEnsinoConsumer.buscaPorMateria(materia.getCodMateria());
+        call.enqueue(new Callback<PlanoDeEnsino>() {
+            @Override
+            public void onResponse(Call<PlanoDeEnsino> call, Response<PlanoDeEnsino> response) {
+                planoDeEnsino = response.body();
+                if(planoDeEnsino == null){
+                    Toast.makeText(PlanoDeEnsinoActivity.this, "Não foi possível carregar o plano", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    assuntos = planoDeEnsino.getAssuntos();
 
-        assuntos.add(a);
-        assuntos.add(a2);
+                    for(Assunto a: assuntos){
+                        Log.i(a.getNome(), "onResponse: ");
+                    }
 
-        listaAssuntosAdapter = new ListaAssuntosAdapter(this, assuntos, false);
-        listaAssuntos.setAdapter(listaAssuntosAdapter);
+                    nomeM.setText(materia.getNome());
+                    nomeP.setText(planoDeEnsino.getProfessor());
+
+                    listaAssuntosAdapter = new ListaAssuntosAdapter(PlanoDeEnsinoActivity.this, assuntos, false);
+                    listaAssuntos.setAdapter(listaAssuntosAdapter);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PlanoDeEnsino> call, Throwable t) {
+                Toast.makeText(PlanoDeEnsinoActivity.this, "Plano de Ensino não foi encontrado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -78,6 +99,7 @@ public class PlanoDeEnsinoActivity extends Activity{
         Intent intent = new Intent(this, InicioActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("usuario", usuario);
+        bundle.putSerializable("materia", materia);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();

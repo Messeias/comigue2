@@ -25,6 +25,7 @@ import comigue.com.br.comigue.consumer.AssuntoConsumer;
 import comigue.com.br.comigue.consumer.ConviteConsumer;
 import comigue.com.br.comigue.consumer.MateriaConsumer;
 import comigue.com.br.comigue.consumer.PlanoDeEnsinoConsumer;
+import comigue.com.br.comigue.pojo.Anotacao;
 import comigue.com.br.comigue.pojo.Assunto;
 import comigue.com.br.comigue.pojo.Convite;
 import comigue.com.br.comigue.pojo.Materia;
@@ -153,6 +154,12 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
             materia = (Materia) getIntent().getExtras().getSerializable("materia");
 
             materia.setPlanoDeEnsino(planoDeEnsino);
+
+            Anotacao anotacaoBase = new Anotacao();
+            anotacaoBase.setTexto("Resuma a materia aqui...");
+            anotacaoBase.setTitulo("Resumo de "+materia.getNome());
+
+            materia.setAnotacoes(anotacaoBase);
 
             materiaConsumer = new MateriaConsumer();
             Call<Materia> call = materiaConsumer.postCadastrar(materia);
