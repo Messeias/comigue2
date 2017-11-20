@@ -212,7 +212,7 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:text="Finalizar cadastro"
+                android:text="Finalizar"
                 android:background="@color/black"
                 android:onClick="criarTarefa"
                 android:textColor="@color/white"

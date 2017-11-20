@@ -21,8 +21,8 @@ public interface ITarefaService {
     @POST("tarefa/")
     Call<Void> postCadastrar(@Body Tarefa tarefa);
 
-    @PUT("tarefa/")
-    Call<Tarefa> putAtualizar(@Body Tarefa tarefa);
+    @PUT("tarefa/{codTarefa}")
+    Call<Tarefa> putAtualizar(@Path("codTarefa") Long id, @Body Tarefa tarefa);
 
     @GET("tarefa/")
     Call<List<Tarefa>> buscarTodos();

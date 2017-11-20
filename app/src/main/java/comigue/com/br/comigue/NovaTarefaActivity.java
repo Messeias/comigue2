@@ -49,6 +49,7 @@ public class NovaTarefaActivity extends Activity {
     private char etiquetaTarefa;
     private Date dataTarefa;
     private Spinner spinner;
+    private Tarefa tarefaEditar;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -59,6 +60,7 @@ public class NovaTarefaActivity extends Activity {
     }
 
     public void criarTarefa(View v){
+
         Tarefa t = new Tarefa();
         t.setDataEntrega(dataTarefa);
         t.setNome(nomeTarefa.getText().toString());
@@ -73,38 +75,68 @@ public class NovaTarefaActivity extends Activity {
         t.setMateria(mat);
         t.setUsuario(usuario);
 
+        Log.i(dataTarefa.toString(), "quando ele vai criar: ");
 
-        Call<Void> call = tConsumer.postCadastrar(t);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+        if(tarefaEditar==null) {
+            Call<Void> call = tConsumer.postCadastrar(t);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
 
-                Toast.makeText(NovaTarefaActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
-                Bundle bd = new Bundle();
-                bd.putSerializable("usuario", usuario);
-                bd.putLong("data", dataTarefa.getTime());
-                Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
-                i.putExtras(bd);
-                startActivity(i);
-                finish();
-            }
+                    Toast.makeText(NovaTarefaActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+                    Bundle bd = new Bundle();
+                    bd.putSerializable("usuario", usuario);
+                    bd.putSerializable("materia", materiaExist);
+                    bd.putLong("data", dataTarefa.getTime());
+                    Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
+                    i.putExtras(bd);
+                    startActivity(i);
+                    finish();
+                }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(NovaTarefaActivity.this, "Não foi possível conectar ao servidor", Toast.LENGTH_SHORT).show();
-                Log.i(t.getMessage(), "onFailure: ");
-                Log.i(t.toString(), "onFailure: ");
-                Log.i(call.request().toString(), "onFailure: ");
-                Log.i(t.getCause().toString(), "onFailure: ");
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(NovaTarefaActivity.this, "Não foi possível conectar ao servidor", Toast.LENGTH_SHORT).show();
+                    Log.i(t.getMessage(), "onFailure: ");
+                    Log.i(t.toString(), "onFailure: ");
+                    Log.i(call.request().toString(), "onFailure: ");
+                    Log.i(t.getCause().toString(), "onFailure: ");
+                }
+            });
+        } else {
+            t.setCodTarefa(tarefaEditar.getCodTarefa());
+            Call<Tarefa> call = tConsumer.putAtualizar(t);
+            call.enqueue(new Callback<Tarefa>() {
+                @Override
+                public void onResponse(Call<Tarefa> call, Response<Tarefa> response) {
+                    Toast.makeText(NovaTarefaActivity.this, "Atualizado com sucesso", Toast.LENGTH_SHORT).show();
+                    Bundle bd = new Bundle();
+                    bd.putSerializable("usuario", usuario);
+                    bd.putLong("data", dataTarefa.getTime());
+                    Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
+                    i.putExtras(bd);
+                    startActivity(i);
+                    finish();
+                }
 
+                @Override
+                public void onFailure(Call<Tarefa> call, Throwable t) {
+                    Toast.makeText(NovaTarefaActivity.this, "Não foi possível conectar ao servidor", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                    Log.i(t.toString(), "onFailure: ");
+                    Log.i(call.request().toString(), "onFailure: ");
+                    Log.i(t.getCause().toString(), "onFailure: ");
+                }
+            });
+        }
     }
 
 
     public void inicializaComponentes(){
 
         materiaExist = (Materia) getIntent().getExtras().getSerializable("materia");
+        tarefaEditar = (Tarefa) getIntent().getExtras().getSerializable("tarefa");
+
 
         nomeTarefa = (EditText) findViewById(R.id.nova_tarefa_nome);
         pesoTarefa = (EditText) findViewById(R.id.nova_tarefa_peso);
@@ -126,6 +158,23 @@ public class NovaTarefaActivity extends Activity {
                 }
             }
         });
+
+        if(tarefaEditar != null){
+            this.nomeTarefa.setText(tarefaEditar.getNome());
+            this.pesoTarefa.setText(tarefaEditar.getPeso()+"");
+            this.descTarefa.setText(tarefaEditar.getDescricao());
+            switch (tarefaEditar.getEtiqueta()){
+                case 'f':
+                    etiqueta.check(R.id.radioButtonFacil);
+                    break;
+                case 'm':
+                    etiqueta.check(R.id.radioButtonMediano);
+                    break;
+                case 'd':
+                    etiqueta.check(R.id.radioButtonDificil);
+                    break;
+            }
+        }
     }
 
     public void inicializaDados(){
@@ -133,10 +182,13 @@ public class NovaTarefaActivity extends Activity {
         tConsumer = new TarefaConsumer();
         usuario = (Usuario)getIntent().getExtras().getSerializable("usuario");
         materiaExist = (Materia) getIntent().getExtras().getSerializable("materia");
+        tarefaEditar = (Tarefa) getIntent().getExtras().getSerializable("tarefa");
 
         dataTarefa = new Date((long)getIntent().getExtras().get("data"));
 
         etiquetaTarefa = 'm';
+
+
 
         if(materiaExist == null) {
             Call<List<Materia>> call = mConsumer.buscarPorUsuario(usuario.getCodUsuario());
@@ -190,12 +242,14 @@ public class NovaTarefaActivity extends Activity {
                 }
             });
         }
+
     }
 
     @Override
     public void onBackPressed(){
         Bundle bd = new Bundle();
         bd.putSerializable("usuario", usuario);
+        bd.putSerializable("materia", materiaExist);
         bd.putLong("data", dataTarefa.getTime());
         Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
         i.putExtras(bd);

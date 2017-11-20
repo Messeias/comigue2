@@ -53,12 +53,24 @@ public class TarefaConsumer {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
-                Date dataJ = null;
-                try {
-                    dataJ = new SimpleDateFormat("yyyy-MM-dd").parse(json.getAsString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
+//                Log.i(json.getAsLong()+"", "deserialize: ");
+
+                String str = json.getAsString();
+                Date dataJ = new Date();
+
+                if (str.contains("-")) {
+                    try {
+                        return new SimpleDateFormat("yyyy-MM-dd").parse(str);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    dataJ = new Date(json.getAsLong());
                 }
+
+
+//                dataJ = new Date(json.getAsLong());
+
                 return json == null ? null : dataJ;
             }
         };
@@ -82,7 +94,7 @@ public class TarefaConsumer {
     }
 
     public Call<Tarefa> putAtualizar(Tarefa tarefa) {
-        return this.tarefaService.putAtualizar(tarefa);
+        return this.tarefaService.putAtualizar(tarefa.getCodTarefa(), tarefa);
     }
 
     public Call<List<Tarefa>> buscarTodos() {

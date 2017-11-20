@@ -1,12 +1,16 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -49,7 +53,7 @@ public class DiaActivity extends Activity {
 
 
         this.formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Log.i(formatter.format(dia), "onCreate: ");
+        Log.i(formatter.format(dia), "dia quando entra no dia acticity: ");
         Log.i(usuario.getCodUsuario() + " cod ", "onCreate: ");
 
         inicializaComponentes();
@@ -83,9 +87,69 @@ public class DiaActivity extends Activity {
 
                         DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
                         DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
+
+                        listaTarefas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Tarefa tar = (Tarefa) adapterView.getItemAtPosition(i);
+                                Bundle b = new Bundle();
+                                b.putSerializable("tarefa", tar);
+                                b.putSerializable("usuario", usuario);
+                                b.putSerializable("materia", materia);
+                                b.putLong("data", dia.getTime());
+                                Intent iEditar = new Intent(DiaActivity.this, NovaTarefaActivity.class);
+                                iEditar.putExtras(b);
+                                startActivity(iEditar);
+                                finish();
+                            }
+                        });
+
+                        listaTarefasAdapter.notifyDataSetChanged();
+
+                        listaTarefas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                            @Override
+                            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+
+                                new AlertDialog.Builder(DiaActivity.this)
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setTitle("Excluir tarefa")
+                                        .setMessage("Você deseja excluir esta tarefa?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // Excluir
+                                                Tarefa tarExc = (Tarefa) parent.getItemAtPosition(position);
+                                                Call<Void> callExcl = tarefaConsumer.deletePorId(tarExc.getCodTarefa());
+                                                callExcl.enqueue(new Callback<Void>() {
+                                                    @Override
+                                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                                        Toast.makeText(DiaActivity.this, "Tarefa excluida com sucesso", Toast.LENGTH_SHORT).show();
+                                                        buscarTarefas();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Void> call, Throwable t) {
+                                                        Toast.makeText(DiaActivity.this, "Erro ao excluir a tarefa", Toast.LENGTH_SHORT).show();
+                                                        t.printStackTrace();
+                                                        Log.i(t.toString(), "onFailure: ");
+                                                    }
+                                                });
+                                            }
+
+                                        })
+                                        .setNegativeButton("No", null)
+                                        .show();
+
+                                listaTarefasAdapter.notifyDataSetChanged();
+                                return false;
+                            }
+                        });
                     } else {
                         Log.i("deu ruim ", "onResponse: ");
                     }
+
+                    listaTarefasAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -108,6 +172,7 @@ public class DiaActivity extends Activity {
 
                         DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
                         DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
+                        listaTarefasAdapter.notifyDataSetChanged();
                     } else {
                         Log.i("deu ruim ", "onResponse: ");
                     }
@@ -136,6 +201,7 @@ public class DiaActivity extends Activity {
     public void retornarCalendario(View v){
         Bundle b = new Bundle();
         b.putSerializable("usuario", usuario);
+        b.putSerializable("materia", materia);
         Intent i = new Intent(this, CalendarioActivity.class);
         i.putExtras(b);
         startActivity(i);
