@@ -30,8 +30,14 @@ public interface ITarefaService {
     @GET("tarefa/aluno/{codAluno}")
     Call<List<Tarefa>> buscarPorAluno(@Path("codAluno") long id);
 
+    @GET("tarefa/materia/{codMateria}")
+    Call<List<Tarefa>> buscarPorMateria(@Path("codMateria") long id);
+
     @GET("tarefa/calendario")
     Call<List<Tarefa>> buscarPorData(@Query("dia") String dia, @Query("codUsuario") long codUsuario);
+
+    @GET("tarefa/calendario/materia")
+    Call<List<Tarefa>> buscarPorDataMateria(@Query("dia") String dia, @Query("codMateria") long codMateria);
 
     @GET("tarefa/{id}")
     Call<Tarefa> buscarPorId(@Path("id")long id);

@@ -57,8 +57,6 @@ public class InicioActivity extends Activity {
     }
 
     public void buscarMaterias(){
-        Bundle bundle = getIntent().getExtras();
-        usuario = (Usuario) bundle.getSerializable("usuario");
         Long idUsuario = usuario.getCodUsuario();
         materiaConsumer.buscarPorUsuario(idUsuario).enqueue(new Callback<List<Materia>>() {
             @Override
@@ -70,6 +68,7 @@ public class InicioActivity extends Activity {
 
                 InicioActivity.this.materiasAdapter = new ListarMateriasAdapter(InicioActivity.this, materias);
                 InicioActivity.this.listaMaterias.setAdapter(materiasAdapter);
+
                 InicioActivity.this.listaMaterias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,6 +83,8 @@ public class InicioActivity extends Activity {
                         finish();
                     }
                 });
+
+                InicioActivity.this.listaMaterias.deferNotifyDataSetChanged();
             }
 
             @Override
@@ -96,6 +97,8 @@ public class InicioActivity extends Activity {
     }
 
     public void inicializaComponentes(){
+        Bundle bundle = getIntent().getExtras();
+        usuario = (Usuario) bundle.getSerializable("usuario");
         pesquisar = (EditText) findViewById(R.id.pesquisar);
         listaMaterias = (ListView) findViewById(R.id.lista_materias);
 
@@ -183,9 +186,39 @@ public class InicioActivity extends Activity {
     }
 
     public  void pesquisarMateria(View v){
-        String msg = "pesquisou pela matéria: " +this.pesquisar.getText().toString();
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+//        String msg = "pesquisou pela matéria: " +this.pesquisar.getText().toString();
+//        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+//        toast.show();
+
+        if(pesquisar.getText().toString().isEmpty()){
+            buscarMaterias();
+        } else {
+            Call<List<Materia>> callPesquisar = materiaConsumer.buscarPorNome(pesquisar.getText().toString());
+            callPesquisar.enqueue(new Callback<List<Materia>>() {
+                @Override
+                public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
+
+                    InicioActivity.this.materias = response.body();
+
+                    if(materias == null || materias.isEmpty()){
+                        Toast.makeText(InicioActivity.this, "Nenhuma materia foi econtrada", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    InicioActivity.this.materiasAdapter = new ListarMateriasAdapter(InicioActivity.this, materias);
+                    InicioActivity.this.listaMaterias.setAdapter(materiasAdapter);
+                    listaMaterias.deferNotifyDataSetChanged();
+
+                    Toast.makeText(InicioActivity.this, "Para retornar suas materias pesquise vazio", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<List<Materia>> call, Throwable t) {
+                    Toast.makeText(InicioActivity.this, "Não deu certo a pesquisa", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
     }
 
     @Override

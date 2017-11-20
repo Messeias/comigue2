@@ -93,8 +93,16 @@ public class TarefaConsumer {
         return this.tarefaService.buscarPorAluno(codAluno);
     }
 
+    public Call<List<Tarefa>> buscarPorMateria(Long codAluno) {
+        return this.tarefaService.buscarPorMateria(codAluno);
+    }
+
     public Call<List<Tarefa>> buscarPorData(String dia, long codUsuario) {
         return this.tarefaService.buscarPorData(dia, codUsuario);
+    }
+
+    public Call<List<Tarefa>> buscarPorDataMateria(String dia, long codUsuario) {
+        return this.tarefaService.buscarPorDataMateria(dia, codUsuario);
     }
 
     public Call<Tarefa> buscarPorId(long id){

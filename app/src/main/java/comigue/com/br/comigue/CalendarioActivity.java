@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.TarefaConsumer;
+import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.Tarefa;
 import comigue.com.br.comigue.pojo.Usuario;
 import retrofit2.Call;
@@ -40,6 +41,7 @@ public class CalendarioActivity extends Activity {
     private MaterialCalendarView calendario;
     private TarefaConsumer tarefaConsumer;
     private Usuario usuario;
+    private Materia materia;
     private List<Tarefa> tarefas;
 
     @Override
@@ -47,6 +49,7 @@ public class CalendarioActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendario);
         this.usuario = (Usuario) getIntent().getExtras().getSerializable("usuario");
+        this.materia = (Materia) getIntent().getExtras().getSerializable("materia");
 //        adjustFontScale(getResources().getConfiguration());
         inicializaComponentes();
     }
@@ -56,46 +59,86 @@ public class CalendarioActivity extends Activity {
         this.calendario = (MaterialCalendarView) findViewById(R.id.calendarView);
         this.tarefaConsumer = new TarefaConsumer();
 
-        Call<List<Tarefa>> call = tarefaConsumer.buscarPorAluno(usuario.getCodUsuario());
-        call.enqueue(new Callback<List<Tarefa>>() {
+        if(materia == null){
+            Call<List<Tarefa>> call = tarefaConsumer.buscarPorAluno(usuario.getCodUsuario());
+            call.enqueue(new Callback<List<Tarefa>>() {
 
-            @Override
-            public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
-                tarefas = response.body();
-                if(tarefas != null && !tarefas.isEmpty()){
+                @Override
+                public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
+                    tarefas = response.body();
+                    if(tarefas != null && !tarefas.isEmpty()){
 
-                    Log.i("deu certo", "onResponse: "+tarefas.toString());
+                        Log.i("deu certo", "onResponse: "+tarefas.toString());
 
-                    List<Event> events = new ArrayList<>();
+                        List<Event> events = new ArrayList<>();
 
-                    for(Tarefa t : tarefas){
-                        int df = 2;
-                        switch (t.getEtiqueta()){
-                            case 'f': df = 0; break;
-                            case 'm': df = 1; break;
-                            case 'd': df = 2; break;
+                        for(Tarefa t : tarefas){
+                            int df = 2;
+                            switch (t.getEtiqueta()){
+                                case 'f': df = 0; break;
+                                case 'm': df = 1; break;
+                                case 'd': df = 2; break;
+                            }
+                            events.add(new Event(t.getDataEntrega(), df));
+                            Collections.sort(events);
                         }
-                        events.add(new Event(t.getDataEntrega(), df));
-                        Collections.sort(events);
+                        decorarEventos(events);
+                    } else {
+                        Log.i("não deu", "onResponse: ");
                     }
-                    decorarEventos(events);
-                } else {
-                    Log.i("não deu", "onResponse: ");
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Tarefa>> call, Throwable t) {
-                Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<List<Tarefa>> call, Throwable t) {
+                    Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas", Toast.LENGTH_SHORT).show();
 //                Log.i("onFailure: ", t.getMessage() + "\n "+ t.getCause().toString());
-            }
-        });
+                }
+            });
+        } else {
+
+            Call<List<Tarefa>> callMatTarefas = tarefaConsumer.buscarPorMateria(materia.getCodMateria());
+            callMatTarefas.enqueue(new Callback<List<Tarefa>>() {
+                @Override
+                public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
+                    tarefas = response.body();
+                    if(tarefas != null && !tarefas.isEmpty()){
+
+                        Log.i("deu certo", "onResponse: "+tarefas.toString());
+
+                        List<Event> events = new ArrayList<>();
+
+                        for(Tarefa t : tarefas){
+                            int df = 2;
+                            switch (t.getEtiqueta()){
+                                case 'f': df = 0; break;
+                                case 'm': df = 1; break;
+                                case 'd': df = 2; break;
+                            }
+                            events.add(new Event(t.getDataEntrega(), df));
+                            Collections.sort(events);
+                        }
+                        decorarEventos(events);
+                    } else {
+                        Log.i("não deu", "onResponse: ");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Tarefa>> call, Throwable t) {
+                    Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas da materia", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+
 
         calendario.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Bundle b = new Bundle();
                 b.putSerializable("usuario", CalendarioActivity.this.usuario);
+                b.putSerializable("materia", CalendarioActivity.this.materia);
                 b.putLong("data", date.getDate().getTime());
                 Intent i = new Intent(CalendarioActivity.this, DiaActivity.class);
                 i.putExtras(b);

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import comigue.com.br.comigue.consumer.TarefaConsumer;
+import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.Tarefa;
 import comigue.com.br.comigue.pojo.Usuario;
 import retrofit2.Call;
@@ -35,6 +36,7 @@ public class DiaActivity extends Activity {
     private ListView listaTarefas;
     private ListaTarefasAdapter listaTarefasAdapter;
     private Date dia;
+    private Materia materia;
     SimpleDateFormat formatter;
 
     @Override
@@ -42,6 +44,7 @@ public class DiaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tarefas_dia);
         this.usuario = (Usuario) getIntent().getExtras().getSerializable("usuario");
+        this.materia = (Materia) getIntent().getExtras().getSerializable("materia");
         this.dia = new Date(getIntent().getExtras().getLong("data"));
 
 
@@ -66,33 +69,63 @@ public class DiaActivity extends Activity {
         usuario = (Usuario) bundle.getSerializable("usuario");
         Long idUsuario = usuario.getCodUsuario();
 
-        tarefaConsumer.buscarPorData(formatter.format(dia), idUsuario).enqueue(new Callback<List<Tarefa>>() {
-            @Override
-            public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
-                Log.i(call.request().toString(), "onResponse: ");
-                DiaActivity.this.tarefas = response.body();
-                if(DiaActivity.this.tarefas != null) {
-                    for (Tarefa m : DiaActivity.this.tarefas) {
-                        Log.e("" + m.getNome(), "onResponse: ");
+        if(materia == null) {
+
+            tarefaConsumer.buscarPorData(formatter.format(dia), idUsuario).enqueue(new Callback<List<Tarefa>>() {
+                @Override
+                public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
+                    Log.i(call.request().toString(), "onResponse: ");
+                    DiaActivity.this.tarefas = response.body();
+                    if (DiaActivity.this.tarefas != null) {
+                        for (Tarefa m : DiaActivity.this.tarefas) {
+                            Log.e("" + m.getNome(), "onResponse: ");
+                        }
+
+                        DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
+                        DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
+                    } else {
+                        Log.i("deu ruim ", "onResponse: ");
                     }
-
-                    DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
-                    DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
-                } else {
-                    Log.i("deu ruim ", "onResponse: ");
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Tarefa>> call, Throwable t) {
-                Log.e("não deu ", "onFailure: " );
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Tarefa>> call, Throwable t) {
+                    Log.e("não deu ", "onFailure: ");
+                }
+            });
+
+        } else {
+
+            tarefaConsumer.buscarPorDataMateria(formatter.format(dia), materia.getCodMateria()).enqueue(new Callback<List<Tarefa>>() {
+                @Override
+                public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
+                    Log.i(call.request().toString(), "onResponse: ");
+                    DiaActivity.this.tarefas = response.body();
+                    if (DiaActivity.this.tarefas != null) {
+                        for (Tarefa m : DiaActivity.this.tarefas) {
+                            Log.e("" + m.getNome(), "onResponse: ");
+                        }
+
+                        DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
+                        DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
+                    } else {
+                        Log.i("deu ruim ", "onResponse: ");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Tarefa>> call, Throwable t) {
+                    Log.e("não deu ", "onFailure: ");
+                }
+            });
+
+        }
     }
 
     public void criarTarefa(View v){
         Bundle b = new Bundle();
         b.putSerializable("usuario", usuario);
+        b.putSerializable("materia", materia);
         b.putLong("data", dia.getTime());
         Intent i = new Intent(this, NovaTarefaActivity.class);
         i.putExtras(b);

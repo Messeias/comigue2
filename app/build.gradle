@@ -43,6 +43,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.prolificinteractive:material-calendarview:1.4.3'
-    compile 'com.google.apis:google-api-services-drive:v2-rev285-1.23.0'
+//    compile 'com.google.apis:google-api-services-drive:v2-rev285-1.23.0'
 
 }

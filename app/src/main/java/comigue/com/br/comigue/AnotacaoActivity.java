@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.services.drive.Drive;
 
 import comigue.com.br.comigue.consumer.AnotacaoConsumer;
+import comigue.com.br.comigue.consumer.ConviteConsumer;
+import comigue.com.br.comigue.consumer.UsuarioConsumer;
 import comigue.com.br.comigue.pojo.Anotacao;
 import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.Usuario;
@@ -145,7 +147,13 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
         }
           else if("Calendário".equalsIgnoreCase(opcao)) {
 
-            // Calendário
+            Intent it = new Intent(this, CalendarioActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("usuario", usuario);
+            bundle.putSerializable("materia", materia);
+            it.putExtras(bundle);
+            startActivity(it);
+            finish();
 
         } else  if("Convidar colega".equalsIgnoreCase(opcao)) {
             criarDialog();
@@ -173,7 +181,31 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(AnotacaoActivity.this, "Enviamos um convite para ele!", Toast.LENGTH_SHORT).show();
+
+                Usuario emailU = new Usuario();
+                emailU.setEmail(input.getText().toString());
+
+                Call<Usuario> callConviteUser = new UsuarioConsumer().buscarPorEmail(emailU);
+
+                Log.i(input.getText().toString(), "onClick: ");
+
+                callConviteUser.enqueue(new Callback<Usuario>() {
+                    @Override
+                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                        Usuario userConvidar = response.body();
+                        if(userConvidar == null){
+                            Toast.makeText(AnotacaoActivity.this, "O usuário não foi encontrado", Toast.LENGTH_SHORT).show();
+                        } else {
+                            ConviteConsumer.convidarUsuarioPendente(userConvidar, materia);
+                            Toast.makeText(AnotacaoActivity.this, "Enviamos um convite para ele!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Usuario> call, Throwable t) {
+                        Toast.makeText(AnotacaoActivity.this, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

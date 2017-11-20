@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class NovaTarefaActivity extends Activity {
     private TextView mostraData;
     private List<Materia> materiasU;
     private Usuario usuario;
+    private Materia materiaExist;
     private UsuarioConsumer uConsumer;
     private MateriaConsumer mConsumer;
     private TarefaConsumer tConsumer;
@@ -102,6 +104,8 @@ public class NovaTarefaActivity extends Activity {
 
     public void inicializaComponentes(){
 
+        materiaExist = (Materia) getIntent().getExtras().getSerializable("materia");
+
         nomeTarefa = (EditText) findViewById(R.id.nova_tarefa_nome);
         pesoTarefa = (EditText) findViewById(R.id.nova_tarefa_peso);
         descTarefa = (EditText) findViewById(R.id.nova_tarefa_desc);
@@ -128,39 +132,64 @@ public class NovaTarefaActivity extends Activity {
         mConsumer = new MateriaConsumer();
         tConsumer = new TarefaConsumer();
         usuario = (Usuario)getIntent().getExtras().getSerializable("usuario");
+        materiaExist = (Materia) getIntent().getExtras().getSerializable("materia");
+
         dataTarefa = new Date((long)getIntent().getExtras().get("data"));
 
         etiquetaTarefa = 'm';
 
-        Call<List<Materia>> call = mConsumer.buscarPorUsuario(usuario.getCodUsuario());
-        call.enqueue(new Callback<List<Materia>>() {
-            @Override
-            public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
-                if(response.code() == 200){
-                    materiasU = response.body();
-                    spinner = (Spinner) findViewById(R.id.nova_tarefa_materia);
-                    ArrayAdapter<CharSequence> adapter = new ArrayAdapter(NovaTarefaActivity.this, android.R.layout.simple_spinner_dropdown_item, materiasU);;
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(adapter);
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            adapterView.getItemAtPosition(i);
-                        }
+        if(materiaExist == null) {
+            Call<List<Materia>> call = mConsumer.buscarPorUsuario(usuario.getCodUsuario());
+            call.enqueue(new Callback<List<Materia>>() {
+                @Override
+                public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
+                    if (response.code() == 200) {
+                        materiasU = response.body();
+                        spinner = (Spinner) findViewById(R.id.nova_tarefa_materia);
+                        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(NovaTarefaActivity.this, android.R.layout.simple_spinner_dropdown_item, materiasU);
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+                        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                adapterView.getItemAtPosition(i);
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Materia>> call, Throwable t) {
-                Toast.makeText(NovaTarefaActivity.this, "Não foi possível carregar suas materias", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Materia>> call, Throwable t) {
+                    Toast.makeText(NovaTarefaActivity.this, "Não foi possível carregar suas materias", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+
+            materiasU = new ArrayList<>();
+            materiasU.add(materiaExist);
+            spinner = (Spinner) findViewById(R.id.nova_tarefa_materia);
+            ArrayAdapter<CharSequence> adapter = new ArrayAdapter(NovaTarefaActivity.this, android.R.layout.simple_spinner_dropdown_item, materiasU);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    adapterView.getItemAtPosition(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    adapterView.getItemAtPosition(0);
+                }
+            });
+        }
     }
 
     @Override

@@ -21,13 +21,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import comigue.com.br.comigue.consumer.AssuntoConsumer;
 import comigue.com.br.comigue.consumer.ConviteConsumer;
 import comigue.com.br.comigue.consumer.MateriaConsumer;
-import comigue.com.br.comigue.consumer.PlanoDeEnsinoConsumer;
 import comigue.com.br.comigue.pojo.Anotacao;
 import comigue.com.br.comigue.pojo.Assunto;
-import comigue.com.br.comigue.pojo.Convite;
 import comigue.com.br.comigue.pojo.Materia;
 import comigue.com.br.comigue.pojo.PlanoDeEnsino;
 import comigue.com.br.comigue.pojo.Usuario;
@@ -170,7 +167,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
                     Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Cadstrou tudo eu acho", Toast.LENGTH_SHORT).show();
                     Log.i(response.code()+" "+ call.request().toString(), "onResponse: ");
                     materia = response.body();
-                    ConviteConsumer.convidarUsuario(usuario, materia);
+                    ConviteConsumer.convidarUsuarioAceito(usuario, materia);
 
                     Bundle b = new Bundle();
                     b.putSerializable("materia", materia);

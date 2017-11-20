@@ -37,6 +37,9 @@ public interface IUsuarioService {
     @GET("usuario/")
     Call<List<Usuario>> buscarTodos();
 
+    @POST("usuario/email/")
+    Call<Usuario> buscarPorEmail(@Body Usuario email);
+
     @GET("usuario/{id}")
     Call<Usuario> buscarPorId(@Path("id")long id);
 

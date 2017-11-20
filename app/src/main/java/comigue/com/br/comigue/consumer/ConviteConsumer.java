@@ -88,13 +88,35 @@ public class ConviteConsumer {
         return this.conviteService.deletePorId(id);
     }
 
-    public static void convidarUsuario(Usuario usuario, Materia materia){
+    public static void convidarUsuarioAceito(Usuario usuario, Materia materia){
         Convite c = new Convite();
         c.setUsuario(usuario);
         c.setMateria(materia);
         c.setStatus(true);
 
-        Log.i(usuario.getNome() + "  " +usuario.getCodUsuario(), "convidarUsuario: ");
+        Log.i(usuario.getNome() + "  " +usuario.getCodUsuario(), "convidarUsuarioAceito: ");
+
+        new ConviteConsumer().postCadastrar(c).enqueue(new Callback<Convite>() {
+            @Override
+            public void onResponse(Call<Convite> call, Response<Convite> response) {
+                Log.i(response.code()+"", "onResponse: ");
+            }
+
+            @Override
+            public void onFailure(Call<Convite> call, Throwable t) {
+                t.printStackTrace();
+                Log.i(t.getMessage().toString(), "onFailure: ");
+            }
+        });
+    }
+
+    public static void convidarUsuarioPendente(Usuario user, Materia m){
+        Convite c = new Convite();
+        c.setUsuario(user);
+        c.setMateria(m);
+        c.setStatus(false);
+
+        Log.i(user.getNome() + "  " +user.getCodUsuario(), "convidarUsuarioAceito: ");
 
         new ConviteConsumer().postCadastrar(c).enqueue(new Callback<Convite>() {
             @Override

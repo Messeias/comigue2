@@ -72,6 +72,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Log.e("não deu ",  t.getMessage());
+                t.printStackTrace();
                 Toast.makeText(LoginActivity.this, "Não foi possível conectar-se ao servidor", Toast.LENGTH_SHORT).show();
             }
         });

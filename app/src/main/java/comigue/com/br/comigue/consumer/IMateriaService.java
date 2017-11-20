@@ -26,6 +26,9 @@ public interface IMateriaService {
     @GET("materia/")
     Call<List<Materia>> buscarTodos();
 
+    @GET("materia/pesquisar")
+    Call<List<Materia>> buscarPublicos();
+
     @GET("materia/buscar/{nome}")
     Call<List<Materia>> buscarPorNome(@Path("nome") String nome);
 

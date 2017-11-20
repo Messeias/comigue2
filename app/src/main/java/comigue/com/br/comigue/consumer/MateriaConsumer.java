@@ -50,13 +50,24 @@ public class MateriaConsumer {
             @Override
             public Date deserialize(JsonElement json, Type typeOfT,
                                     JsonDeserializationContext context) throws JsonParseException {
-                Log.i(json.getAsLong()+"", "deserialize: ");
-                Date dataJ = new Date(json.getAsLong());
-//                try {
-//                    dataJ = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(json.getAsString());
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
+//                Log.i(json.getAsLong()+"", "deserialize: ");
+
+                String str = json.getAsString();
+                Date dataJ = new Date();
+
+                if(str.contains("-")){
+                    try {
+                        return new SimpleDateFormat("yyyy-MM-dd").parse(str);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    dataJ = new Date(json.getAsLong());
+                }
+
+
+//                dataJ = new Date(json.getAsLong());
+
                 return json == null ? null : dataJ;
             }
         };
@@ -93,6 +104,10 @@ public class MateriaConsumer {
 
     public Call<List<Materia>> buscarPorNome(String nome) {
         return this.materiaService.buscarPorNome(nome);
+    }
+
+    public Call<List<Materia>> buscarPublicos() {
+        return this.materiaService.buscarPublicos();
     }
 
     public Call<List<Materia>> buscarTodos() {
