@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +76,15 @@ public class DiaActivity extends Activity {
 
         if(materia == null) {
 
+            final ProgressDialog progressDoalog;
+            progressDoalog = new ProgressDialog(this);
+            progressDoalog.setMax(100);
+            progressDoalog.setMessage("Carregando");
+            progressDoalog.setTitle("Conectando com servidor");
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            // show it
+            progressDoalog.show();
+
             tarefaConsumer.buscarPorData(formatter.format(dia), idUsuario).enqueue(new Callback<List<Tarefa>>() {
                 @Override
                 public void onResponse(Call<List<Tarefa>> call, Response<List<Tarefa>> response) {
@@ -143,10 +153,16 @@ public class DiaActivity extends Activity {
 
                                 listaTarefasAdapter.notifyDataSetChanged();
                                 return false;
+
+
                             }
                         });
+
+                        progressDoalog.dismiss();
+
                     } else {
                         Log.i("deu ruim ", "onResponse: ");
+                        progressDoalog.dismiss();
                     }
 
                     listaTarefasAdapter.notifyDataSetChanged();
@@ -155,10 +171,20 @@ public class DiaActivity extends Activity {
                 @Override
                 public void onFailure(Call<List<Tarefa>> call, Throwable t) {
                     Log.e("não deu ", "onFailure: ");
+                    progressDoalog.dismiss();
                 }
             });
 
         } else {
+
+            final ProgressDialog progressDoalog;
+            progressDoalog = new ProgressDialog(this);
+            progressDoalog.setMax(100);
+            progressDoalog.setMessage("Carregando");
+            progressDoalog.setTitle("Conectando com servidor");
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            // show it
+            progressDoalog.show();
 
             tarefaConsumer.buscarPorDataMateria(formatter.format(dia), materia.getCodMateria()).enqueue(new Callback<List<Tarefa>>() {
                 @Override
@@ -173,14 +199,17 @@ public class DiaActivity extends Activity {
                         DiaActivity.this.listaTarefasAdapter = new ListaTarefasAdapter(DiaActivity.this, DiaActivity.this.tarefas);
                         DiaActivity.this.listaTarefas.setAdapter(listaTarefasAdapter);
                         listaTarefasAdapter.notifyDataSetChanged();
+                        progressDoalog.dismiss();
                     } else {
                         Log.i("deu ruim ", "onResponse: ");
+                        progressDoalog.dismiss();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<Tarefa>> call, Throwable t) {
                     Log.e("não deu ", "onFailure: ");
+                    progressDoalog.dismiss();
                 }
             });
 

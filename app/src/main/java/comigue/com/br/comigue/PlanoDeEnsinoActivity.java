@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,12 +59,23 @@ public class PlanoDeEnsinoActivity extends Activity{
         planoDeEnsinoConsumer = new PlanoDeEnsinoConsumer();
 
         Call<PlanoDeEnsino> call = planoDeEnsinoConsumer.buscaPorMateria(materia.getCodMateria());
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         call.enqueue(new Callback<PlanoDeEnsino>() {
             @Override
             public void onResponse(Call<PlanoDeEnsino> call, Response<PlanoDeEnsino> response) {
                 planoDeEnsino = response.body();
                 if(planoDeEnsino == null){
                     Toast.makeText(PlanoDeEnsinoActivity.this, "Não foi possível carregar o plano", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                     return;
                 } else {
                     assuntos = planoDeEnsino.getAssuntos();
@@ -78,12 +90,15 @@ public class PlanoDeEnsinoActivity extends Activity{
                     listaAssuntosAdapter = new ListaAssuntosAdapter(PlanoDeEnsinoActivity.this, assuntos, false);
                     listaAssuntos.setAdapter(listaAssuntosAdapter);
 
+                    progressDoalog.dismiss();
+
                 }
             }
 
             @Override
             public void onFailure(Call<PlanoDeEnsino> call, Throwable t) {
                 Toast.makeText(PlanoDeEnsinoActivity.this, "Plano de Ensino não foi encontrado", Toast.LENGTH_SHORT).show();
+                progressDoalog.dismiss();
             }
         });
 

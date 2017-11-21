@@ -3,6 +3,7 @@ package comigue.com.br.comigue;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -125,7 +126,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
 //                    listaAssuntosAdapter = new ListaAssuntosAdapter(NovoPlanoDeEnsinoActivity.this, assuntos);
 //                    listaAssuntos.setAdapter(listaAssuntosAdapter);
 
-                    Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Era para atualizar a lista", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Era para atualizar a lista", Toast.LENGTH_SHORT).show();
 
                     dialogAssunto.dismiss();
                 } else {
@@ -161,10 +162,19 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
             materiaConsumer = new MateriaConsumer();
             Call<Materia> call = materiaConsumer.postCadastrar(materia);
 
+            final ProgressDialog progressDoalog;
+            progressDoalog = new ProgressDialog(this);
+            progressDoalog.setMax(100);
+            progressDoalog.setMessage("Carregando");
+            progressDoalog.setTitle("Conectando com servidor");
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            // show it
+            progressDoalog.show();
+
             call.enqueue(new Callback<Materia>() {
                 @Override
                 public void onResponse(Call<Materia> call, Response<Materia> response) {
-                    Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Cadstrou tudo eu acho", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Cadstrou tudo eu acho", Toast.LENGTH_SHORT).show();
                     Log.i(response.code()+" "+ call.request().toString(), "onResponse: ");
                     materia = response.body();
                     ConviteConsumer.convidarUsuarioAceito(usuario, materia);
@@ -175,6 +185,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
                     Intent intent = new Intent(NovoPlanoDeEnsinoActivity.this, InicioActivity.class);
                     intent.putExtras(b);
                     startActivity(intent);
+                    progressDoalog.dismiss();
                     finish();
                 }
 
@@ -183,6 +194,7 @@ public class NovoPlanoDeEnsinoActivity extends Activity implements DatePickerDia
                     Toast.makeText(NovoPlanoDeEnsinoActivity.this, "Não deu", Toast.LENGTH_SHORT).show();
                     Log.e(t.getMessage(), "onFailure: " );
                     t.printStackTrace();
+                    progressDoalog.dismiss();
                 }
             });
 

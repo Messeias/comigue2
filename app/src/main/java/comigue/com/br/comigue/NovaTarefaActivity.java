@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -77,6 +78,15 @@ public class NovaTarefaActivity extends Activity {
 
         Log.i(dataTarefa.toString(), "quando ele vai criar: ");
 
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         if(tarefaEditar==null) {
             Call<Void> call = tConsumer.postCadastrar(t);
             call.enqueue(new Callback<Void>() {
@@ -91,6 +101,7 @@ public class NovaTarefaActivity extends Activity {
                     Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
                     i.putExtras(bd);
                     startActivity(i);
+                    progressDoalog.dismiss();
                     finish();
                 }
 
@@ -101,6 +112,7 @@ public class NovaTarefaActivity extends Activity {
                     Log.i(t.toString(), "onFailure: ");
                     Log.i(call.request().toString(), "onFailure: ");
                     Log.i(t.getCause().toString(), "onFailure: ");
+                    progressDoalog.dismiss();
                 }
             });
         } else {
@@ -116,6 +128,7 @@ public class NovaTarefaActivity extends Activity {
                     Intent i = new Intent(NovaTarefaActivity.this, DiaActivity.class);
                     i.putExtras(bd);
                     startActivity(i);
+                    progressDoalog.dismiss();
                     finish();
                 }
 
@@ -126,6 +139,7 @@ public class NovaTarefaActivity extends Activity {
                     Log.i(t.toString(), "onFailure: ");
                     Log.i(call.request().toString(), "onFailure: ");
                     Log.i(t.getCause().toString(), "onFailure: ");
+                    progressDoalog.dismiss();
                 }
             });
         }
@@ -192,6 +206,16 @@ public class NovaTarefaActivity extends Activity {
 
         if(materiaExist == null) {
             Call<List<Materia>> call = mConsumer.buscarPorUsuario(usuario.getCodUsuario());
+
+            final ProgressDialog progressDoalog;
+            progressDoalog = new ProgressDialog(this);
+            progressDoalog.setMax(100);
+            progressDoalog.setMessage("Carregando");
+            progressDoalog.setTitle("Conectando com servidor");
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            // show it
+            progressDoalog.show();
+
             call.enqueue(new Callback<List<Materia>>() {
                 @Override
                 public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
@@ -214,11 +238,14 @@ public class NovaTarefaActivity extends Activity {
                             }
                         });
                     }
+
+                    progressDoalog.dismiss();
                 }
 
                 @Override
                 public void onFailure(Call<List<Materia>> call, Throwable t) {
                     Toast.makeText(NovaTarefaActivity.this, "Não foi possível carregar suas materias", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                 }
             });
         } else {

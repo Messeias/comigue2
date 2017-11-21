@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,6 +52,15 @@ public class CadastrarActivity extends Activity {
 
         usuario.setAnotacoes(a);
 
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         Call<Usuario> call = usuarioConsumer.postCadastrar(usuario);
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -61,16 +71,20 @@ public class CadastrarActivity extends Activity {
                     Toast.makeText(CadastrarActivity.this, "Cadastrado com sucesso", Toast.LENGTH_SHORT).show();
                     Intent it = new Intent(CadastrarActivity.this, LoginActivity.class);
                     startActivity(it);
+                    progressDoalog.dismiss();
                     finish();
                 } else {
                     Log.e("deu erro", "onResponse: ");
                     Toast.makeText(CadastrarActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
+                t.printStackTrace();
                 Toast.makeText(CadastrarActivity.this, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                progressDoalog.dismiss();
             }
         });
     }

@@ -109,7 +109,7 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
 
                         @Override
                         public void onFailure(Call<Anotacao> call, Throwable t) {
-                            Toast.makeText(AnotacaoActivity.this, "Deu algum erro", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AnotacaoActivity.this, "Ocorreu um erro inesperado", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -171,7 +171,7 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
 
     public void criarDialog(){
         builder = new AlertDialog.Builder(this);
-        builder.setTitle("Digite o e-mail");
+        builder.setTitle("Digite o e-mail do seu colega");
 
         final EditText input = new EditText(this);
 
@@ -212,6 +212,24 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy(){
+        anotacaoConsumer = new AnotacaoConsumer();
+        anotacao.setTexto(textoAnotacao.getText().toString());
+        Call<Anotacao> call = anotacaoConsumer.putAtualizar(anotacao);
+        call.enqueue(new Callback<Anotacao>() {
+            @Override
+            public void onResponse(Call<Anotacao> call, Response<Anotacao> response) {
+                Toast.makeText(AnotacaoActivity.this, "Salvou esta anotação", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Anotacao> call, Throwable t) {
+                Toast.makeText(AnotacaoActivity.this, "Ocorreu um erro inesperado", Toast.LENGTH_SHORT).show();
             }
         });
     }

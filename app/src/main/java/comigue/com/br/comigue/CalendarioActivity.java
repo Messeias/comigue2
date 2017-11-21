@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -59,6 +60,15 @@ public class CalendarioActivity extends Activity {
         this.calendario = (MaterialCalendarView) findViewById(R.id.calendarView);
         this.tarefaConsumer = new TarefaConsumer();
 
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         if(materia == null){
             Call<List<Tarefa>> call = tarefaConsumer.buscarPorAluno(usuario.getCodUsuario());
             call.enqueue(new Callback<List<Tarefa>>() {
@@ -83,8 +93,10 @@ public class CalendarioActivity extends Activity {
                             Collections.sort(events);
                         }
                         decorarEventos(events);
+                        progressDoalog.dismiss();
                     } else {
                         Log.i("não deu", "onResponse: ");
+                        progressDoalog.dismiss();
                     }
                 }
 
@@ -92,6 +104,7 @@ public class CalendarioActivity extends Activity {
                 public void onFailure(Call<List<Tarefa>> call, Throwable t) {
                     Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas", Toast.LENGTH_SHORT).show();
 //                Log.i("onFailure: ", t.getMessage() + "\n "+ t.getCause().toString());
+                    progressDoalog.dismiss();
                 }
             });
         } else {
@@ -118,14 +131,17 @@ public class CalendarioActivity extends Activity {
                             Collections.sort(events);
                         }
                         decorarEventos(events);
+                        progressDoalog.dismiss();
                     } else {
                         Log.i("não deu", "onResponse: ");
+                        progressDoalog.dismiss();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<Tarefa>> call, Throwable t) {
                     Toast.makeText(CalendarioActivity.this, "Não foi possivel carregar as tarefas da materia", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                 }
             });
 

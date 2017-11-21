@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,6 +51,16 @@ public class EditarPerfilActivity extends Activity {
         novo_usuario.setCodUsuario(usuario.getCodUsuario());
 
         Call<Usuario> call = usuarioConsumer.postCadastrar(novo_usuario);
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -65,16 +76,19 @@ public class EditarPerfilActivity extends Activity {
                     it.putExtras(b);
 
                     startActivity(it);
+                    progressDoalog.dismiss();
                     finish();
                 } else {
                     Log.e("deu erro", "onResponse: ");
-                    Toast.makeText(EditarPerfilActivity.this, "Erro ao cadastrar edição", Toast.LENGTH_SHORT);
+                    Toast.makeText(EditarPerfilActivity.this, "Erro ao salvar as modificações", Toast.LENGTH_SHORT);
+                    progressDoalog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Toast.makeText(EditarPerfilActivity.this, "Ocorreu um erro", Toast.LENGTH_SHORT).show();
+                progressDoalog.dismiss();
             }
         });
     }
@@ -86,7 +100,7 @@ public class EditarPerfilActivity extends Activity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Deletar Conta")
                 .setMessage("Deseja realmente deletar sua conta?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -117,7 +131,7 @@ public class EditarPerfilActivity extends Activity {
                     }
 
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton("Não", null)
                 .show();
     }
 

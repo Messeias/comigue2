@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,6 +59,16 @@ public class InicioActivity extends Activity {
 
     public void buscarMaterias(){
         Long idUsuario = usuario.getCodUsuario();
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
+
         materiaConsumer.buscarPorUsuario(idUsuario).enqueue(new Callback<List<Materia>>() {
             @Override
             public void onResponse(Call<List<Materia>> call, Response<List<Materia>> response) {
@@ -85,6 +96,7 @@ public class InicioActivity extends Activity {
                 });
 
                 InicioActivity.this.listaMaterias.deferNotifyDataSetChanged();
+                progressDoalog.dismiss();
             }
 
             @Override
@@ -92,6 +104,7 @@ public class InicioActivity extends Activity {
                 Log.e("não deu ", "onFailure: " );
                 t.printStackTrace();
                 Log.i(t.getMessage(), "onFailure: ");
+                progressDoalog.dismiss();
             }
         });
     }
@@ -179,9 +192,9 @@ public class InicioActivity extends Activity {
     }
 
     public void mostrarMenuLateral(View v){
-        String msg = "Fingindo que o menu apareceu";
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+//        String msg = "Fingindo que o menu apareceu";
+//        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+//        toast.show();
         menuLateral.openDrawer(Gravity.LEFT);
     }
 
@@ -189,6 +202,15 @@ public class InicioActivity extends Activity {
 //        String msg = "pesquisou pela matéria: " +this.pesquisar.getText().toString();
 //        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
 //        toast.show();
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
 
         if(pesquisar.getText().toString().isEmpty()){
             buscarMaterias();
@@ -209,11 +231,14 @@ public class InicioActivity extends Activity {
                     listaMaterias.deferNotifyDataSetChanged();
 
                     Toast.makeText(InicioActivity.this, "Para retornar suas materias pesquise vazio", Toast.LENGTH_SHORT).show();
+
+                    progressDoalog.dismiss();
                 }
 
                 @Override
                 public void onFailure(Call<List<Materia>> call, Throwable t) {
                     Toast.makeText(InicioActivity.this, "Não deu certo a pesquisa", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                 }
             });
         }
@@ -226,8 +251,8 @@ public class InicioActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Fechar aplicativo")
-                .setMessage("Are you sure you want to close this activity?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                .setMessage("Você deseja fechar o aplicativo?")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -235,7 +260,7 @@ public class InicioActivity extends Activity {
                     }
 
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton("Não", null)
                 .show();
     }
 }

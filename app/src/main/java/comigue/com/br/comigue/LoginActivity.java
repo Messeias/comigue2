@@ -1,6 +1,7 @@
 package comigue.com.br.comigue;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,8 +38,6 @@ public class LoginActivity extends Activity {
         String emailInformado = this.email.getText().toString();
         String senhaInformada = this.senha.getText().toString();
 
-        emailInformado = "oseias@gmail.com";
-        senhaInformada = "josias";
 
         Usuario usuarioLogar = new Usuario();
         usuarioLogar.setEmail(emailInformado);
@@ -47,6 +46,14 @@ public class LoginActivity extends Activity {
 
         UsuarioConsumer usuarioConsummer = new UsuarioConsumer();
 
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(this);
+        progressDoalog.setMax(100);
+        progressDoalog.setMessage("Carregando");
+        progressDoalog.setTitle("Conectando com servidor");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        // show it
+        progressDoalog.show();
 
         Call<Usuario> call = usuarioConsummer.postLogar(usuarioLogar);
         call.enqueue(new Callback<Usuario>() {
@@ -61,10 +68,12 @@ public class LoginActivity extends Activity {
                     bundle.putSerializable("usuario", user);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    progressDoalog.dismiss();
                     finish();
                 } else {
                     Log.e("Falha: " + responseCode, "onResponse: ");
                     Toast.makeText(LoginActivity.this, "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
+                    progressDoalog.dismiss();
                 }
 
             }
@@ -74,6 +83,7 @@ public class LoginActivity extends Activity {
                 Log.e("não deu ",  t.getMessage());
                 t.printStackTrace();
                 Toast.makeText(LoginActivity.this, "Não foi possível conectar-se ao servidor", Toast.LENGTH_SHORT).show();
+                progressDoalog.dismiss();
             }
         });
     }
