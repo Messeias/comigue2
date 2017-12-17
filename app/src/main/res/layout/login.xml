@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:background="@color/black"
+    android:background="@color/white"
     >
 
     <ImageView
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/usuario"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         />
 
     <EditText
@@ -27,11 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:textColor="@color/white">
+        android:textColor="@color/black">
         <requestFocus/>
     </EditText>
     <View
-        android:background="@color/white"
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="2px"/>
     <TextView
@@ -39,16 +39,16 @@
         android:layout_height="wrap_content"
         android:text="@string/senha"
         android:layout_marginTop="10px"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
     <EditText
         android:id="@+id/senha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         />
     <View
-        android:background="@color/white"
+        android:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="2px"/>
     <Button
@@ -57,8 +57,8 @@
         android:layout_gravity="bottom"
         android:onClick="entrarOnClick"
         android:text="@string/entrar"
-        android:textColor="@color/white"
-        android:background="@color/transparent"
+        android:textColor="@color/black"
+        android:background="@color/white"
         android:layout_marginTop="10px"
         style="@style/AudioFileInfoOverlayText"/>
     <Button
@@ -67,9 +67,9 @@
         android:layout_gravity="bottom"
         android:onClick="cadastrarOnClick"
         android:text="@string/cadastrar"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_marginTop="10px"
-        android:background="@color/transparent"
+        android:background="@color/white"
         style="@style/AudioFileInfoOverlayText"/>
 
 </LinearLayout>

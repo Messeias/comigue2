@@ -82,7 +82,7 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
             this.textoAnotacao.setText(anotacao.getTexto());
 
 
-            paths = new String[] {"←", "Plano de Ensino", "Calendário", "Convidar colega"};
+            paths = new String[] {"←", "Componentes curriculares", "Calendário", "Convidar colega"};
 
             spinner = (Spinner)findViewById(R.id.btn_meu_mat);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(AnotacaoActivity.this,
@@ -136,7 +136,7 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
         String opcao = (String) parent.getItemAtPosition(position);
 
-        if("Plano de Ensino".equalsIgnoreCase(opcao)){
+        if("Componentes curriculares".equalsIgnoreCase(opcao)){
             Intent intent = new Intent(this, PlanoDeEnsinoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("usuario", usuario);
@@ -218,6 +218,7 @@ public class AnotacaoActivity extends Activity implements AdapterView.OnItemSele
 
     @Override
     public void onDestroy(){
+        super.onDestroy();
         anotacaoConsumer = new AnotacaoConsumer();
         anotacao.setTexto(textoAnotacao.getText().toString());
         Call<Anotacao> call = anotacaoConsumer.putAtualizar(anotacao);

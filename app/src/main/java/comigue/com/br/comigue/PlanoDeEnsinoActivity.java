@@ -74,7 +74,7 @@ public class PlanoDeEnsinoActivity extends Activity{
             public void onResponse(Call<PlanoDeEnsino> call, Response<PlanoDeEnsino> response) {
                 planoDeEnsino = response.body();
                 if(planoDeEnsino == null){
-                    Toast.makeText(PlanoDeEnsinoActivity.this, "Não foi possível carregar o plano", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PlanoDeEnsinoActivity.this, "Não foi possível carregar componentes", Toast.LENGTH_SHORT).show();
                     progressDoalog.dismiss();
                     return;
                 } else {
@@ -97,7 +97,7 @@ public class PlanoDeEnsinoActivity extends Activity{
 
             @Override
             public void onFailure(Call<PlanoDeEnsino> call, Throwable t) {
-                Toast.makeText(PlanoDeEnsinoActivity.this, "Plano de Ensino não foi encontrado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlanoDeEnsinoActivity.this, "Componentes curriculares não foram encontrados", Toast.LENGTH_SHORT).show();
                 progressDoalog.dismiss();
             }
         });

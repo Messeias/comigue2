@@ -32,13 +32,13 @@
 
             <TextView
                 android:id="@+id/plano_nome_mat"
-                android:text="Plano de ensino"
-                android:layout_marginLeft="15dp"
+                android:text="Componentes curriculares"
+                android:layout_marginLeft="12dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="25dp"
+                android:textSize="21dp"
                 android:textColor="@color/white"
                 android:textStyle="normal|bold"
                 android:textAlignment="center" />
